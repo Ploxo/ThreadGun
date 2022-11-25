@@ -15,6 +15,8 @@ public class TestGenerateMesh : MonoBehaviour
     private float displayRadius = 0.1f;
     [SerializeField]
     private string sortingLayerName;
+    [SerializeField]
+    private Material thread;
 
     private Camera mainCamera; // cache camera for mouse position
 
@@ -83,6 +85,11 @@ public class TestGenerateMesh : MonoBehaviour
 
     }
 
+    public void setMaterial(Material newThread)
+    {
+        thread = newThread;
+    }
+
     private void CreatePatch()
     {
         GameObject meshObject = MeshUtils.CreatePolygon(points);
@@ -96,7 +103,7 @@ public class TestGenerateMesh : MonoBehaviour
         //collider.isTrigger = true;
 
         MeshRenderer renderer = meshObject.GetComponent<MeshRenderer>();
-        renderer.material.color = new Color(Random.value, Random.value, Random.value);
+        renderer.material = thread;
         //renderer.material.renderQueue = sortingOrder++;
 
         //SortingGroup sortingGroup = meshObject.AddComponent<SortingGroup>();
