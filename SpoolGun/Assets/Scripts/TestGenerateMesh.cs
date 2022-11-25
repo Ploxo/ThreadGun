@@ -18,6 +18,8 @@ public class TestGenerateMesh : MonoBehaviour
     [SerializeField]
     private Material thread;
 
+    private int patchType = 2;
+
     private Camera mainCamera; // cache camera for mouse position
 
     private List<Vector3> points = new List<Vector3>();
@@ -85,9 +87,10 @@ public class TestGenerateMesh : MonoBehaviour
 
     }
 
-    public void setMaterial(Material newThread)
+    public void setMaterial(Material newThread, int newType)
     {
         thread = newThread;
+        patchType = newType;
     }
 
     private void CreatePatch()
@@ -111,7 +114,7 @@ public class TestGenerateMesh : MonoBehaviour
         //sortingGroup.sortingOrder = sortingOrder++;
 
         Patch patch = meshObject.AddComponent<Patch>();
-        patch.patchType = (PatchType)Random.Range(0, 3);
+        patch.patchType = (PatchType) patchType;
 
         patches.Add(meshObject);
     }

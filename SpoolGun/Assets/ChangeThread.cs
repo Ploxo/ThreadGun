@@ -25,11 +25,11 @@ public class ChangeThread : MonoBehaviour
 
     private void setIce()
     {
-        generator.GetComponent<TestGenerateMesh>().setMaterial(materials[0]);
+        generator.GetComponent<TestGenerateMesh>().setMaterial(materials[0], 2);
     }
 
     private void setGum()
     {
-        generator.GetComponent<TestGenerateMesh>().setMaterial(materials[1]);
+        generator.GetComponent<TestGenerateMesh>().setMaterial(materials[1], 1);
     }
 }
