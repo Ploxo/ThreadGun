@@ -6,7 +6,7 @@ using UnityEngine.ProBuilder.MeshOperations;
 
 public class MeshUtils
 {
-    public static GameObject CreatePolygon(List<Vector3> vertices)
+    public static GameObject CreatePolygon(Vector3[] vertices)
     {
         ProBuilderMesh mesh = ProBuilderMesh.Create();
 

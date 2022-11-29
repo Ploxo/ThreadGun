@@ -9,15 +9,16 @@ public class ChangeThread : MonoBehaviour
     [SerializeField] public Button ice;
     [SerializeField] public Button gum;
     [SerializeField] public List<Material> materials;
+    [SerializeField] public List<Material> threadMaterials;
     [SerializeField] private GameObject generator;
-    // Start is called before the first frame update
+
+
     void Start()
     {
         ice.onClick.AddListener(setIce);
         gum.onClick.AddListener(setGum);
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -25,11 +26,11 @@ public class ChangeThread : MonoBehaviour
 
     private void setIce()
     {
-        generator.GetComponent<TestGenerateMesh>().setMaterial(materials[0], 2);
+        generator.GetComponent<PolygonGenerator>().setMaterial(materials[0], threadMaterials[0], 0);
     }
 
     private void setGum()
     {
-        generator.GetComponent<TestGenerateMesh>().setMaterial(materials[1], 1);
+        generator.GetComponent<PolygonGenerator>().setMaterial(materials[1], threadMaterials[1], 1);
     }
 }

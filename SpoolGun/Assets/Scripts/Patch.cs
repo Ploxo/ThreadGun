@@ -4,19 +4,48 @@ using UnityEngine;
 
 public enum PatchType
 {
-    None,
-    Bouncy,
-    Slippery
+    Slippery,
+    Bouncy
 }
 
 public class Patch : MonoBehaviour
 {
     public PatchType patchType;
-    public int height;
+    public IPatchEffector effect;
+    public Vector3[] points;
+    public Transform threadObject;
+
+    private AnimatePath anim;
+    private MeshRenderer rend;
+
+    private bool building = true;
 
 
-    private void OnTriggerEnter(Collider other)
+    public void Start()
     {
-        
+        anim = GetComponent<AnimatePath>();
+        //anim.target = threadObject;
+
+        rend = GetComponent<MeshRenderer>();
+
+        //GetComponent<MeshRenderer>().enabled = false;
+        //StartCoroutine(BuildPatchCoroutine());
+    }
+
+    private IEnumerator BuildPatchCoroutine()
+    {
+        Debug.Log("Started buildpatchcoroutine");
+        yield return anim.AnimateCoroutine(points);
+
+        //building = false;
+        //rend.enabled = true;
+    }
+
+    public void ApplyEffect(GameObject go)
+    {
+        if (building)
+            return;
+
+        effect.ApplyEffect(go);
     }
 }
