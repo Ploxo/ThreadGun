@@ -15,29 +15,36 @@ public class PolygonGenerator : MonoBehaviour
     private LayerMask targetLayers;
     [SerializeField]
     private string patchLayerName;
-    [SerializeField]
-    private IPatchEffector patchEffect;
+
+    //[SerializeField]
+    //private PatchData[] patchData;
+
+    private float offset = 0.00025f;
+
+    private int patchType = 0;
     [SerializeField]
     private Material thread;
     [SerializeField]
-    private Material threadMaterial;
+    private Material lining;
     [SerializeField]
-    private GameObject threadPrefab;
-
-    private int patchType = 0;
-    private float offset = 0.00025f;
+    private ParticleSystem particleMouse;
+    [SerializeField]
+    private ParticleSystem particlePatch;
+    private IPatchEffector effector;
 
 
     private void Start()
     {
-        setMaterial(thread, threadMaterial, 0);
+        setMaterial(0, thread, lining, particleMouse, particlePatch);
     }
 
-    public void setMaterial(Material newThread, Material newThreadMaterial, int newType)
+    public void setMaterial(int newType, Material thread, Material lining, ParticleSystem particleMouse, ParticleSystem particlePatch)
     {
-        thread = newThread;
-        threadMaterial = newThreadMaterial;
         patchType = newType;
+        this.thread = thread;
+        this.lining = lining;
+        this.particleMouse = particleMouse;
+        this.particlePatch = particlePatch;
     }
 
     public void CreatePatch(Vector3[] points)
@@ -63,6 +70,8 @@ public class PolygonGenerator : MonoBehaviour
         }
         patch.patchType = (PatchType)patchType;
         patch.points = points;
+
+        patch.particlePatch = particlePatch;
 
         //TrailRenderer trail = Instantiate(threadPrefab).GetComponent<TrailRenderer>();
         //patch.threadObject = trail.transform;

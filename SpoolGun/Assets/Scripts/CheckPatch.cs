@@ -9,9 +9,13 @@ public class CheckPatch : MonoBehaviour
     [SerializeField]
     private float raycastRange = 1.1f;
 
-    //public PatchType currentPatchType;
-    public IPatchEffector currentEffector;
+    private ParticleSystem[] particles;
 
+
+    private void Start()
+    {
+        particles = transform.GetComponentsInChildren<ParticleSystem>();
+    }
 
     void FixedUpdate()
     {
@@ -21,22 +25,26 @@ public class CheckPatch : MonoBehaviour
             Patch patch = hit.collider.gameObject.GetComponent<Patch>();
             if (patch != null)
             {
-                patch.effect.ApplyEffect(this.gameObject);
+                patch.effect.ApplyEffect(gameObject);
+
+                if (patch.patchType == PatchType.Slippery)
+                {
+                    Debug.Log("RAN ICE");
+                    particles[0].gameObject.SetActive(true);
+                    particles[1].gameObject.SetActive(false);
+                }
+                else if (patch.patchType == PatchType.Bouncy)
+                {
+                    particles[1].gameObject.SetActive(true);
+                    particles[0].gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < particles.Length; i++)
+                    particles[i].gameObject.SetActive(false);
             }
         }
-
-        //if (currentPatchType == PatchType.None)
-        //{
-        //    GetComponent<MeshRenderer>().material.color = Color.white;
-        //}
-        //else if (currentPatchType == PatchType.Bouncy)
-        //{
-        //    GetComponent<MeshRenderer>().material.color = Color.green;
-        //}
-        //else if (currentPatchType == PatchType.Slippery)
-        //{
-        //    GetComponent<MeshRenderer>().material.color = Color.cyan;
-        //}
     }
 
     private void OnDrawGizmos()

@@ -703,4 +703,13 @@ MonoBehaviour:
   materials:
   - {fileID: 2100000, guid: 5d0a77f0149781e4e803dd195bcb9c19, type: 2}
   - {fileID: 2100000, guid: f077a1b8b9b00c74eb82c1b5cfb3adbb, type: 2}
+  liningMaterials:
+  - {fileID: 2100000, guid: 132de1638b999f04f8f03296f226dd0f, type: 2}
+  - {fileID: 2100000, guid: 90f38db68f2a12d439aaa6195d2cf4ad, type: 2}
   generator: {fileID: 0}
+  patchParticles:
+  - {fileID: 1427646314316375006, guid: 338ba1350710111488000c1ef403aecb, type: 3}
+  - {fileID: 7933238593121025140, guid: e8ea4c86017fc164ebd023ec50ddbd2b, type: 3}
+  mouseParticles:
+  - {fileID: 1427646314316375006, guid: 3b6e3e285de963645a23a77136360d39, type: 3}
+  - {fileID: 7933238593121025140, guid: dec67853fdeb5554caa36ebbf6429d21, type: 3}
