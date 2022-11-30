@@ -5,7 +5,8 @@ using UnityEngine;
 public enum PatchType
 {
     Slippery,
-    Bouncy
+    Bouncy,
+    None
 }
 
 public class Patch : MonoBehaviour
@@ -34,6 +35,13 @@ public class Patch : MonoBehaviour
 
         //GetComponent<MeshRenderer>().enabled = false;
         //StartCoroutine(BuildPatchCoroutine());
+    }
+
+    private IEnumerator WaitPlayParticles()
+    {
+        yield return new WaitForEndOfFrame();
+
+        particlePatch.Play();
     }
 
     //private IEnumerator BuildPatchCoroutine()

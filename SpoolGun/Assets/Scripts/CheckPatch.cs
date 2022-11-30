@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CheckPatch : MonoBehaviour
 {
+    public PatchType currentType = PatchType.None;
+
     [SerializeField]
     private LayerMask layerMask;
     [SerializeField]
@@ -15,9 +17,16 @@ public class CheckPatch : MonoBehaviour
     private void Start()
     {
         particles = transform.GetComponentsInChildren<ParticleSystem>();
+
+        StopParticles();
     }
 
     void FixedUpdate()
+    {
+        CheckCurrentPatch();
+    }
+
+    private void CheckCurrentPatch()
     {
         RaycastHit hit;
         if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastRange, layerMask))
@@ -25,26 +34,45 @@ public class CheckPatch : MonoBehaviour
             Patch patch = hit.collider.gameObject.GetComponent<Patch>();
             if (patch != null)
             {
-                patch.effect.ApplyEffect(gameObject);
+                if (patch.patchType != currentType)
+                {
+                    currentType = patch.patchType;
 
-                if (patch.patchType == PatchType.Slippery)
-                {
-                    Debug.Log("RAN ICE");
-                    particles[0].gameObject.SetActive(true);
-                    particles[1].gameObject.SetActive(false);
+                    if (currentType == PatchType.Slippery)
+                    {
+                        PlayParticles(0);
+                    }
+                    else if (currentType == PatchType.Bouncy)
+                    {
+                        PlayParticles(1);
+                    }
                 }
-                else if (patch.patchType == PatchType.Bouncy)
-                {
-                    particles[1].gameObject.SetActive(true);
-                    particles[0].gameObject.SetActive(false);
-                }
+
+                patch.effect.ApplyEffect(gameObject);
             }
             else
             {
-                for (int i = 0; i < particles.Length; i++)
-                    particles[i].gameObject.SetActive(false);
+                currentType = PatchType.None;
+                StopParticles();
             }
         }
+    }
+
+    private void PlayParticles(int index)
+    {
+        for (int i = 0; i < particles.Length; i++)
+        {
+            particles[i].Stop();
+
+            if (i == index)
+                particles[i].Play(true);
+        }
+    }
+
+    private void StopParticles()
+    {
+        for (int i = 0; i < particles.Length; i++)
+            particles[i].Stop();
     }
 
     private void OnDrawGizmos()

@@ -15,11 +15,16 @@ public class MouseTracker : MonoBehaviour
     private PolygonGenerator generator;
     [SerializeField]
     private AnimatePath animatePath;
+    [SerializeField]
+    private Transform emitter;
 
     private LineRenderer lineRenderer;
     private Camera mainCamera;
+    private ParticleSystem[] mouseParticle;
 
+    private Vector3 mousePosition;
     private int intersectionIndex = -1; // this will be non-negative for intersections
+    private int patchType;
 
 
     void Start()
@@ -27,19 +32,15 @@ public class MouseTracker : MonoBehaviour
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.positionCount = 0;
 
+        mouseParticle = GetComponentsInChildren<ParticleSystem>();
+        for (int i = 0; i < mouseParticle.Length; i++)
+            mouseParticle[i].Stop();
+
         mainCamera = Camera.main;
     }
 
-    Vector3 mousePosition;
     void Update()
     {
-
-        RaycastHit hit;
-        if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out hit, layers))
-        {
-            mousePosition = hit.point;
-        }
-
         if (Input.GetButton("Fire1"))
         {
             if (EventSystem.current.IsPointerOverGameObject())
@@ -48,6 +49,9 @@ public class MouseTracker : MonoBehaviour
             if (!tracking)
                 tracking = true;
 
+            if (!mouseParticle[patchType].isPlaying)
+                mouseParticle[patchType].Play();
+
             AddPoint();
             UpdateLineRenderer(lineRenderer.positionCount - 1, mousePosition);
         }
@@ -55,8 +59,27 @@ public class MouseTracker : MonoBehaviour
         {
             tracking = false;
 
+            mouseParticle[patchType].Stop();
+
             FinalizePoints();
         }
+    }
+
+    private void FixedUpdate()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out hit, 100f, layers))
+        {
+            mousePosition = hit.point;
+
+            if (tracking)
+                emitter.position = hit.point;
+        }
+    }
+
+    public void SetMaterial(int type)
+    {
+        patchType = type;
     }
 
     // Add a point for the generation of a polygon, and update the line renderer to show it
@@ -68,8 +91,7 @@ public class MouseTracker : MonoBehaviour
             AddToLineRenderer(mousePosition);
             AddToLineRenderer(mousePosition);
         }
-        else if (Vector3.Distance(mousePosition, points[points.Count - 1]) >= distance
-            && intersectionIndex == -1)
+        else if (Vector3.Distance(mousePosition, points[points.Count - 1]) >= distance && intersectionIndex == -1)
         {
             Vector3 position = GetIntersectionPoint(mousePosition);
 
@@ -124,8 +146,8 @@ public class MouseTracker : MonoBehaviour
         Vector2 intersection;
         for (int i = points.Count - 2; i > 0; i--)
         {
-            if (GeometryUtils.LineSegmentIntersection2D(
-                points[i - 1], points[i], points[points.Count - 1], position, out intersection))
+            if (GeometryUtils.LineSegmentIntersection2D(points[i - 1], points[i], points[points.Count - 1], 
+                position, out intersection))
             {
                 intersectionIndex = i;
 

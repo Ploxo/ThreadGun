@@ -22,23 +22,16 @@ public class PolygonGenerator : MonoBehaviour
     private float offset = 0.00025f;
 
     private int patchType = 0;
-    [SerializeField]
     private Material thread;
-    [SerializeField]
     private Material lining;
-    [SerializeField]
-    private ParticleSystem particleMouse;
-    [SerializeField]
-    private ParticleSystem particlePatch;
-    private IPatchEffector effector;
+    public GameObject particleMouse;
+    private GameObject particlePatch;
+
+    //private IPatchEffector effector;
 
 
-    private void Start()
-    {
-        setMaterial(0, thread, lining, particleMouse, particlePatch);
-    }
-
-    public void setMaterial(int newType, Material thread, Material lining, ParticleSystem particleMouse, ParticleSystem particlePatch)
+    public void setMaterial(int newType, Material thread, Material lining, GameObject particleMouse,
+        GameObject particlePatch)
     {
         patchType = newType;
         this.thread = thread;
@@ -49,7 +42,12 @@ public class PolygonGenerator : MonoBehaviour
 
     public void CreatePatch(Vector3[] points)
     {
+        // Zero the mesh on its centroid before generating, so we get the transform in the center
+        // There probably is a ProBuilder method for this somewhere
+        Vector3 center = CenterPolygon(points);
         GameObject meshObject = MeshUtils.CreatePolygon(points);
+        meshObject.transform.position = center;
+
         meshObject.transform.position += Vector3.up * offset * (patches.Count + 1);
         meshObject.name = "Patch" + patches.Count;
         meshObject.layer = LayerMask.NameToLayer(patchLayerName);
@@ -71,7 +69,10 @@ public class PolygonGenerator : MonoBehaviour
         patch.patchType = (PatchType)patchType;
         patch.points = points;
 
-        patch.particlePatch = particlePatch;
+        // We need to store the actual structs and modify them for ParticleSystem properties
+        ParticleSystem ps = Instantiate(particlePatch, meshObject.transform, false).GetComponent<ParticleSystem>();
+        ParticleSystem.ShapeModule sm = ps.shape;
+        sm.meshRenderer = renderer;
 
         //TrailRenderer trail = Instantiate(threadPrefab).GetComponent<TrailRenderer>();
         //patch.threadObject = trail.transform;
@@ -82,5 +83,24 @@ public class PolygonGenerator : MonoBehaviour
         //meshObject.AddComponent<AnimatePath>();
 
         patches.Add(meshObject);
+    }
+
+    // Center a polygon on the origin
+    private Vector3 CenterPolygon(Vector3[] points)
+    {
+        Vector3 center = Vector3.zero;
+        for (int i = 0; i < points.Length; i++)
+        {
+            center += points[i];
+        }
+
+        center /= points.Length;
+
+        for (int i = 0; i < points.Length; i++)
+        {
+            points[i] -= center;
+        }
+
+        return center;
     }
 }
