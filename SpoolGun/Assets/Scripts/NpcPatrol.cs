@@ -10,6 +10,8 @@ public class NpcPatrol : MonoBehaviour
     public Transform[] moveSpot;
     private float waitTime; //The character wait for x amount of seconds before moving.
 
+    public LayerMask layerMask;
+
     private int randomSpot; //Picks a random spot to move to in our MoveSpot array.
 
     void Start()
@@ -18,11 +20,23 @@ public class NpcPatrol : MonoBehaviour
         randomSpot = Random.Range(0, moveSpot.Length);
     }
 
-    void Update()
-    {
-        Vector3 position = Vector3.MoveTowards(transform.position, moveSpot[randomSpot].position, speed * Time.deltaTime);
+    bool airborne = false;
+    void FixedUpdate()
+    {   
+
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, 1.1f, layerMask))
+        {
+            airborne = false;
+        }
+        else
+        {
+            airborne = true;
+        }
+
+            Vector3 position = Vector3.MoveTowards(transform.position, moveSpot[randomSpot].position, speed * Time.deltaTime);
         position.y = transform.position.y;
-        transform.position = position;
+        //transform.position = position;
 
         /*
         We check the distance between the character (enemy) and its' destination, if the distance is smaller than the defined amount it'll be considered the character has reached the destination.
@@ -31,8 +45,16 @@ public class NpcPatrol : MonoBehaviour
         */
         Vector2 position2D = new Vector2(transform.position.x, transform.position.z);
         Vector2 targetPosition = new Vector2(moveSpot[randomSpot].position.x, moveSpot[randomSpot].position.z);
-        if (Vector3.Distance(position2D, targetPosition) < 0.015f)
+
+        Vector3 direction = (moveSpot[randomSpot].position - transform.position).normalized;
+
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb.velocity.magnitude < speed && !airborne)
+            rb.AddForce(direction * 0.3f, ForceMode.Impulse);
+
+        if (Vector3.Distance(position2D, targetPosition) < 1f)
         {
+
             //Checks whether it's not or not for the character to move to a new random position
             if(waitTime <= 0)
             {
@@ -45,6 +67,15 @@ public class NpcPatrol : MonoBehaviour
             {
                 waitTime -= Time.deltaTime;
             }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("kill"))
+        {
+            this.enabled = false;
+            GetComponent<MeshRenderer>().material.color = Color.blue;
         }
     }
 }

@@ -10,6 +10,7 @@ public class ChangeThread : MonoBehaviour
     [SerializeField] public Button gum;
     [SerializeField] public List<Material> materials;
     [SerializeField] public List<Material> liningMaterials;
+    [SerializeField] public List<PhysicMaterial> physicMaterials;
     [SerializeField] private GameObject[] patchParticles;
     [SerializeField] private GameObject[] mouseParticles;
     [SerializeField] private GameObject generator;
@@ -28,13 +29,13 @@ public class ChangeThread : MonoBehaviour
     {
         mouseTracker.GetComponent<MouseTracker>().SetMaterial(0);
         generator.GetComponent<PolygonGenerator>().setMaterial(
-            0, materials[0], liningMaterials[0], mouseParticles[0], patchParticles[0]);
+            0, materials[0], liningMaterials[0], physicMaterials[0], mouseParticles[0], patchParticles[0]);
     }
 
     private void setGum()
     {
         mouseTracker.GetComponent<MouseTracker>().SetMaterial(1);
         generator.GetComponent<PolygonGenerator>().setMaterial(
-            1, materials[1], liningMaterials[1], mouseParticles[1], patchParticles[1]);
+            1, materials[1], liningMaterials[1], physicMaterials[1], mouseParticles[1], patchParticles[1]);
     }
 }

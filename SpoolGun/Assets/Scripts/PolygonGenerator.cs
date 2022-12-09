@@ -24,18 +24,20 @@ public class PolygonGenerator : MonoBehaviour
     private int patchType = 0;
     private Material thread;
     private Material lining;
+    private PhysicMaterial physic;
     public GameObject particleMouse;
     private GameObject particlePatch;
 
     //private IPatchEffector effector;
 
 
-    public void setMaterial(int newType, Material thread, Material lining, GameObject particleMouse,
+    public void setMaterial(int newType, Material thread, Material lining, PhysicMaterial physic, GameObject particleMouse,
         GameObject particlePatch)
     {
         patchType = newType;
         this.thread = thread;
         this.lining = lining;
+        this.physic = physic;
         this.particleMouse = particleMouse;
         this.particlePatch = particlePatch;
     }
@@ -53,6 +55,7 @@ public class PolygonGenerator : MonoBehaviour
         meshObject.layer = LayerMask.NameToLayer(patchLayerName);
 
         MeshCollider collider = meshObject.AddComponent<MeshCollider>();
+        collider.material = physic;
 
         MeshRenderer renderer = meshObject.GetComponent<MeshRenderer>();
         renderer.material = thread;
