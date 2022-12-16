@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/Passthrough.unity
+    guid: fe393d9bdc2b52048b9fd69a996e7bf1
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 8d4ec3274f3308c43bdfa8795be7129c,
       type: 2}
