@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PassthroughManager : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class PassthroughManager : MonoBehaviour
     public OVRInput.Button button;
     public OVRInput.Controller controller;
     public List<Gradient> colorMapGradients;
+    public Image edgePreview;
 
 
     void Start()
@@ -58,17 +60,20 @@ public class PassthroughManager : MonoBehaviour
     {
         Color newColor = new Color(value, passthrough.edgeColor.g, passthrough.edgeColor.b);
         passthrough.edgeColor = newColor;
+        edgePreview.color = newColor;
     }
 
     public void SetEdgeGreen(float value)
     {
         Color newColor = new Color(passthrough.edgeColor.r, value, passthrough.edgeColor.b);
         passthrough.edgeColor = newColor;
+        edgePreview.color = newColor;
     }
 
     public void SetEdgeBlue(float value)
     {
         Color newColor = new Color(passthrough.edgeColor.r, passthrough.edgeColor.g, value);
         passthrough.edgeColor = newColor;
+        edgePreview.color = newColor;
     }
 }
