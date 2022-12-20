@@ -1250,7 +1250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d93c295189a9f2f45907981134220c51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  passthrough: {fileID: 0}
+  passthrough: {fileID: 767229720}
   button: 2097152
   controller: 2
   colorMapGradients:
