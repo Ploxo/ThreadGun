@@ -7,16 +7,30 @@ public class Raycaster : MonoBehaviour
     [SerializeField] private Transform indicator;
     [SerializeField] private float distance;
 
+    public OVRInput.Button button;
+    public bool held = false;
+
 
     void FixedUpdate()
     {
-        if (indicator != null)
-        {
-            RaycastHit hit;
-            if (Physics.Raycast(origin.position, origin.forward, out hit, distance, layerMask))
+        if (indicator == null)
+            return;
+
+        //if (held)
+        //{
+            if (OVRInput.Get(button))
             {
-                indicator.position = hit.point;
+                RaycastHit hit;
+                if (Physics.Raycast(origin.position, origin.forward, out hit, distance, layerMask))
+                {
+                    indicator.position = hit.point;
+                }
             }
-        }
+            else
+            {
+                indicator.position = transform.position;
+            }
+        //}
+
     }
 }

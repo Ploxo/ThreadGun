@@ -26,6 +26,12 @@ public class ThreadManager : MonoBehaviour
     [SerializeField] private List<Thread> threads;
 
 
+    private void Start()
+    {
+        if (current == null && threads.Count > 0)
+            current = threads[0];
+    }
+
     // Set the active thread material for use in patch creation.
     public void SetActiveThread(ThreadType type)
     {

@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class MouseTrackerVR : MonoBehaviour
 {
     public OVRInput.Button button;
-    public OVRInput.Controller controller;
+    //public OVRInput.Controller controller;
     public Transform origin;
 
     public List<Vector3> points;
@@ -39,7 +39,7 @@ public class MouseTrackerVR : MonoBehaviour
 
     void Update()
     {
-        if (OVRInput.GetDown(button, controller))
+        if (OVRInput.Get(button))
         {
             Debug.Log("Pressed VR button");
 
@@ -55,7 +55,7 @@ public class MouseTrackerVR : MonoBehaviour
             AddPoint();
             UpdateLineRenderer(lineRenderer.positionCount - 1, pointerPosition);
         }
-        if (OVRInput.GetUp(button, controller) && tracking)
+        if (OVRInput.GetUp(button) && tracking)
         {
             Debug.Log("Released VR button");
 
