@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 [CreateAssetMenu(fileName = "NewGumEffector", menuName = "ScriptableObject/GumEffector")]
 public class GumEffector : Effector
@@ -13,11 +14,18 @@ public class GumEffector : Effector
     {
         //Debug.Log("Applied BubbleGum");
 
-        Rigidbody rb = go.GetComponent<Rigidbody>();
-
-        if (rb != null)
+        NavMeshAgent agent = go.GetComponent<NavMeshAgent>();
+        if (agent != null) 
         {
-            rb.AddForce(forceDirection * force, ForceMode.Impulse);
+            Debug.Log("ran velocity");
+            agent.velocity = new Vector3(agent.velocity.x, 50f, agent.velocity.z);
         }
+
+        //Rigidbody rb = go.GetComponent<Rigidbody>();
+
+        //if (rb != null)
+        //{
+        //    rb.AddForce(forceDirection * force, ForceMode.Impulse);
+        //}
     }
 }

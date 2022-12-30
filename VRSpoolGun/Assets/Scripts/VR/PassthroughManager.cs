@@ -5,25 +5,20 @@ using UnityEngine.UI;
 
 public class PassthroughManager : MonoBehaviour
 {
-    public OVRPassthroughLayer passthrough;
-    public OVRInput.Button button;
-    public OVRInput.Controller controller;
-    public List<Gradient> colorMapGradients;
-    public Image edgePreview;
+    public OVRPassthroughLayer passthrough; // The actual passthrough component
+    //public OVRInput.Button button; // Which button to check
+    //public OVRInput.Controller controller; // The controller to check for buttons
+    public List<Gradient> colorMapGradients; // These are supposed to change the texture into a gradient
+    public Image edgePreview; // Shows which color the edges are using for edge rendering
 
-
-    void Start()
-    {
-
-    }
 
     void Update()
     {
-        if (OVRInput.GetDown(button, controller))
-        {
-            Debug.Log("Passthrough set to " + !passthrough.hidden);
-            passthrough.hidden = !passthrough.hidden;
-        }
+        //if (OVRInput.GetDown(button, controller))
+        //{
+        //    Debug.Log("Passthrough set to " + !passthrough.hidden);
+        //    passthrough.hidden = !passthrough.hidden;
+        //}
     }
 
     public void SetOpacity(float value)

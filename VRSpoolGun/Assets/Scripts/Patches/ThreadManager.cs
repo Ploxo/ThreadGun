@@ -22,8 +22,9 @@ public class ThreadManager : MonoBehaviour
         }
     }
 
-    public Thread current;
     [SerializeField] private List<Thread> threads;
+
+    private Thread current;
 
 
     private void Start()
@@ -42,4 +43,5 @@ public class ThreadManager : MonoBehaviour
     {
         return current;
     }
+
 }

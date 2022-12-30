@@ -6,9 +6,10 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(LineRenderer))]
 public class MouseTrackerVR : MonoBehaviour
 {
-    public OVRInput.Button button;
-    //public OVRInput.Controller controller;
     public Transform origin;
+
+    public delegate void PointAdded(int current);
+    public event PointAdded OnPointAdd;
 
     public List<Vector3> points;
     public float distance = 0.1f;
@@ -24,7 +25,9 @@ public class MouseTrackerVR : MonoBehaviour
 
     private Vector3 pointerPosition;
     private int intersectionIndex = -1; // this will be non-negative for intersections
-    private int patchType;
+    private int threadType;
+
+    public int pointBudget = 0; // How many points we can create
 
 
     void Start()
@@ -33,40 +36,65 @@ public class MouseTrackerVR : MonoBehaviour
         lineRenderer.positionCount = 0;
 
         mouseParticle = GetComponentsInChildren<ParticleSystem>();
-        for (int i = 0; i < mouseParticle.Length; i++)
-            mouseParticle[i].Stop();
+        StopAllParticles();
     }
 
-    void Update()
+    private void Update()
     {
-        if (OVRInput.Get(button))
+        if (tracking)
         {
-            Debug.Log("Pressed VR button");
+            if (pointBudget > points.Count)
+            {
+                AddPoint();
 
-            if (EventSystem.current.IsPointerOverGameObject())
-                return;
-
-            if (!tracking)
-                tracking = true;
-
-            if (!mouseParticle[patchType].isPlaying)
-                mouseParticle[patchType].Play();
-
-            AddPoint();
-            UpdateLineRenderer(lineRenderer.positionCount - 1, pointerPosition);
-        }
-        if (OVRInput.GetUp(button) && tracking)
-        {
-            Debug.Log("Released VR button");
-
-            tracking = false;
-
-            mouseParticle[patchType].Stop();
-
-            FinalizePoints();
+                UpdateLineRenderer(lineRenderer.positionCount - 1, pointerPosition);
+            }
+            else if (points.Count > 0)
+            {
+                lineRenderer.material.color = Color.red;
+                UpdateLineRenderer(lineRenderer.positionCount - 1, pointerPosition);
+            }
         }
     }
 
+    // Start tracking
+    public void StartTracking(int points)
+    {
+        if (!tracking)
+        {
+            tracking = true;
+            pointBudget = points;
+
+            lineRenderer.material.color = Color.white;
+
+            if (!mouseParticle[threadType].isPlaying)
+                mouseParticle[threadType].Play();
+        }
+    }
+
+    // Stops tracking and attempts to create a polygon
+    public void FinishTracking()
+    {
+        if (points.Count < 4)
+        {
+            StopTracking();
+            return;
+        }
+
+        tracking = false;
+        StopAllParticles();
+        FinalizePoints();
+    }
+
+    // Stops tracking without completing a polygon
+    public void StopTracking()
+    {
+        tracking = false;
+        StopAllParticles();
+        ClearPoints();
+    }
+
+    // Always track the pointer position with raycast
     private void FixedUpdate()
     {
         RaycastHit hit;
@@ -79,9 +107,9 @@ public class MouseTrackerVR : MonoBehaviour
         }
     }
 
-    public void SetMaterial(int type)
+    public void SetMaterial(ThreadType type)
     {
-        patchType = type;
+        threadType = (int)type;
     }
 
     // Add a point for the generation of a polygon, and update the line renderer to show it
@@ -100,6 +128,8 @@ public class MouseTrackerVR : MonoBehaviour
             points.Add(position);
             UpdateLineRenderer(lineRenderer.positionCount - 1, position);
             AddToLineRenderer(position);
+
+            OnPointAdd(points.Count);
         }
     }
 
@@ -131,9 +161,11 @@ public class MouseTrackerVR : MonoBehaviour
         ClearPoints();
     }
 
+    // Reset the tracking
     private void ClearPoints()
     {
         points.Clear();
+        pointBudget = 0;
         lineRenderer.positionCount = 0;
         intersectionIndex = -1;
     }
@@ -163,6 +195,13 @@ public class MouseTrackerVR : MonoBehaviour
         return position;
     }
 
+    private void StopAllParticles()
+    {
+        for (int i = 0; i < mouseParticle.Length; i++)
+            mouseParticle[i].Stop();
+    }
+
+    // Update the line renderer visuals with a new point
     private void AddToLineRenderer(Vector3 position)
     {
         lineRenderer.positionCount++;
@@ -174,14 +213,9 @@ public class MouseTrackerVR : MonoBehaviour
         lineRenderer.SetPosition(index, position);
     }
 
+    // Display points in scene view
     private void OnDrawGizmos()
     {
-        if (origin != null)
-        {
-            Gizmos.color = Color.cyan;
-            Gizmos.DrawLine(origin.position, origin.forward);
-        }
-
         foreach (var p in points)
         {
             Gizmos.color = Color.red;

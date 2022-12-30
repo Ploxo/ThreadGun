@@ -17,4 +17,10 @@ public class NPCNavMesh : MonoBehaviour
     {
         navMeshAgent.destination = movePositionTransform.position;
     }
+
+    // Set a new destination for the transform
+    public void SetTargetTransform(Vector3 newPosition)
+    {
+        movePositionTransform.position = newPosition;
+    }
 }
