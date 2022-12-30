@@ -20,17 +20,11 @@ public class ToolHandler : MonoBehaviour
     public GameObject leftAnchor;
     public GameObject rightAnchor;
 
-    //public GameObject leftController;
-    //public GameObject rightController;
-
-    //public GameObject leftHand;
-    //public GameObject rightHand;
-
     public InteractorGroup interactorsLeft;
     public InteractorGroup interactorsRight;
 
-    public GrabInteractor grabInteractor;
-    public HandGrabInteractor handGrabInteractor;
+    public GrabInteractor grabInteractor; // Controller
+    public HandGrabInteractor handGrabInteractor; // Hand
 
     public Grabbable gunGrabbable;
     public HandGrabInteractable gunInteractable;
@@ -88,12 +82,6 @@ public class ToolHandler : MonoBehaviour
         //if (currentTool != null)
         //    currentTool.gameObject.SetActive(false);
 
-        ////// TESTING (ITS THE FUCKING RESET ON GRAB ON INTERACTABLES)
-
-        //interactorsRight.
-
-        //interactorsRight.gameObject.SetActive(false);
-
         currentTool = tools[index];
         currentTool.gameObject.SetActive(true);
 
@@ -105,11 +93,7 @@ public class ToolHandler : MonoBehaviour
         {
             HandGrabInteractable handGrab = currentTool.GetComponentInChildren<HandGrabInteractable>();
             handGrabInteractor.ForceSelect(handGrab);
-            HandGrabPose pose = currentTool.GetComponentInChildren<HandGrabPose>();
-            //handGrab.LoadHandGrabPose(pose.SaveData());
         }
-
-
 
         //grabInteractor.Hover();
         //grabInteractor.Select();
