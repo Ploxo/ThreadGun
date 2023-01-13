@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class RaycastAlpha : MonoBehaviour
 {
-    public float value = 0.5f;
-
+    public float value = 0.5f; 
+    
 
     private void OnValidate()
     {

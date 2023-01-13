@@ -6,6 +6,7 @@ public enum ThreadType
 {
     Ice,
     Gum,
+    Lava,
     None
 }
 
