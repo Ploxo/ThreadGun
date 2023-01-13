@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3085737120078903757}
   - component: {fileID: 2078911072939186937}
   - component: {fileID: 696764324004127711}
-  - component: {fileID: 6508142742475777462}
   m_Layer: 9
   m_Name: Cube (2)
   m_TagString: Untagged
@@ -84,19 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6508142742475777462
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4039326708521401983}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6536519111939628178
 GameObject:
   m_ObjectHideFlags: 0
@@ -108,7 +94,6 @@ GameObject:
   - component: {fileID: 6536519111939628179}
   - component: {fileID: 6536519111939628182}
   - component: {fileID: 6536519111939628177}
-  - component: {fileID: 6536519111939628176}
   m_Layer: 9
   m_Name: Cube
   m_TagString: Untagged
@@ -181,19 +166,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6536519111939628176
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6536519111939628178}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6536519113054112316
 GameObject:
   m_ObjectHideFlags: 0
@@ -272,6 +244,7 @@ GameObject:
   - component: {fileID: 6536519113478668807}
   - component: {fileID: 6536519113478668806}
   - component: {fileID: 6536519113478668826}
+  - component: {fileID: 4495105124442362283}
   - component: {fileID: 6536519113478668801}
   - component: {fileID: 6536519113478668827}
   - component: {fileID: 5550398288747921227}
@@ -382,7 +355,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!114 &6536519113478668801
+--- !u!114 &4495105124442362283
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -390,6 +363,23 @@ MonoBehaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6536519113478668800}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 762e2ebc8f1f58f4790d1e3b4e004409, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentType: 2
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 256
+  raycastRange: 1.1
+--- !u!114 &6536519113478668801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6536519113478668800}
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a843580767b796141bb60ebbc7d48d3f, type: 3}
   m_Name: 
@@ -406,7 +396,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6536519113478668800}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0a869957e8d2b334ab07f785bcefdac0, type: 3}
   m_Name: 
@@ -478,7 +468,6 @@ GameObject:
   - component: {fileID: 5734699806618938914}
   - component: {fileID: 523455140053033632}
   - component: {fileID: 5528675856630763053}
-  - component: {fileID: 6513822851900744977}
   m_Layer: 9
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -551,19 +540,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6513822851900744977
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7194754701723787684}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &6536519111731436587
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -12,7 +12,6 @@ public enum ThreadType
 public class Patch : MonoBehaviour
 {
     public ThreadType patchType;
-    public IPatchEffector effect;
     public Vector3[] points;
     public ParticleSystem particlePatch;
 
@@ -52,12 +51,4 @@ public class Patch : MonoBehaviour
     //building = false;
     //rend.enabled = true;
     //}
-
-    public void ApplyEffect(GameObject go)
-    {
-        //if (building)
-        //    return;
-
-        effect.ApplyEffect(go);
-    }
 }

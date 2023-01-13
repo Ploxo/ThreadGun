@@ -44,4 +44,8 @@ public class ThreadManager : MonoBehaviour
         return current;
     }
 
+    public Thread GetThread(ThreadType type)
+    {
+        return threads[(int)type];
+    }
 }

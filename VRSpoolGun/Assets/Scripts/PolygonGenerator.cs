@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Rendering;
 
 public class PolygonGenerator : MonoBehaviour
@@ -39,16 +40,7 @@ public class PolygonGenerator : MonoBehaviour
         renderer.material = thread.threadMaterial;
 
         Patch patch = meshObject.AddComponent<Patch>();
-        patch.effect = thread.effector;
-        //if ((int)thread.threadType == 0)
-        //{
-        //    patch.effect = new IceEffector();
-        //}
-        //else if ((int)thread.threadType == 1)
-        //{
-        //    patch.effect = new GumEffector();
-        //}
-        //patch.patchType = (ThreadType)patchType;
+        //patch.effect = thread.effector;
         patch.patchType = thread.threadType;
         patch.points = points;
 
@@ -56,6 +48,14 @@ public class PolygonGenerator : MonoBehaviour
         ParticleSystem ps = Instantiate(thread.patchParticles, meshObject.transform, false).GetComponent<ParticleSystem>();
         ParticleSystem.ShapeModule sm = ps.shape;
         sm.meshRenderer = renderer;
+
+        //if (thread.threadType == ThreadType.Lava)
+            //{
+            var obstacle = meshObject.AddComponent<NavMeshObstacle>();
+            //obstacle.center = center;
+            obstacle.size = GeometryUtils.GetBounds(points).size;
+            obstacle.height = 0.5f;
+        //}
 
         //TrailRenderer trail = Instantiate(threadPrefab).GetComponent<TrailRenderer>();
         //patch.threadObject = trail.transform;

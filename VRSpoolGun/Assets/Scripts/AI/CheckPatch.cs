@@ -11,6 +11,8 @@ public class CheckPatch : MonoBehaviour
 
     private ParticleSystem[] particles;
 
+    public IPatchEffector currentEffect;
+
 
     private void Start()
     {
@@ -45,13 +47,16 @@ public class CheckPatch : MonoBehaviour
                         PlayParticles(1);
                     }
                 }
-
-                patch.effect.ApplyEffect(gameObject);
             }
             else
             {
                 currentType = ThreadType.None;
                 StopParticles();
+            }
+
+            if (currentType != ThreadType.None)
+            {
+                currentEffect.ApplyEffect(gameObject);
             }
         }
     }

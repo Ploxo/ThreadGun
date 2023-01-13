@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.XR.CoreUtils;
+using System;
 
 public class GeometryUtils
 {
@@ -67,5 +69,15 @@ public class GeometryUtils
         }
 
         return center;
+    }
+
+    // Returns a rectangle or circle, depending on which has the smallest surface area
+    public static Bounds GetBounds(Vector3[] points)
+    {
+        List<Vector3> pointsList = new List<Vector3>();
+        pointsList.AddRange(points);
+        Bounds b = BoundsUtils.GetBounds(pointsList);
+
+        return b;
     }
 }
