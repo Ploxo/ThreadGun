@@ -20,6 +20,7 @@ public class BaseSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(Random.Range(0, 2));
         if ((int)Time.time % buffer > 30 && canSpawn && bases < 2)
         {
             SpawnBase();

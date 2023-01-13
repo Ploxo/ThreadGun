@@ -30,7 +30,7 @@ public class EnemyBase : MonoBehaviour
                 if (creator != null) creator.destoryedBase();
                 Destroy(gameObject);
             }
-            //bChance++;
+            bChance++;
             return;
         }
         if ((int)Time.time % buffer > 2)

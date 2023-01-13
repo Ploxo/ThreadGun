@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7933238593121025142}
   - component: {fileID: 7933238593121025141}
   m_Layer: 0
-  m_Name: GumThreadEffectNPC
+  m_Name: LavaThreadEffectNPC 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -116,7 +116,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1.5
+      scalar: 1
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -169,7 +169,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 2
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -609,7 +609,7 @@ ParticleSystem:
     gravityModifier:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 0.4
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -663,7 +663,7 @@ ParticleSystem:
     serializedVersion: 6
     enabled: 1
     type: 4
-    angle: 40
+    angle: 20
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
@@ -1386,8 +1386,8 @@ ParticleSystem:
           inWeight: 0.33333334
           outWeight: 0.33333334
         - serializedVersion: 3
-          time: 0.83883333
-          value: 0.34697446
+          time: 0.5106473
+          value: 0.4739581
           inSlope: 1.3279456
           outSlope: 1.3279456
           tangentMode: 0
@@ -1492,9 +1492,10 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 1266044133, guid: 3f4ea86692e20a0489d7f3a6fdf1c84a, type: 3}
-    - sprite: {fileID: 834299149, guid: 3f4ea86692e20a0489d7f3a6fdf1c84a, type: 3}
-    - sprite: {fileID: -1725070978, guid: 3f4ea86692e20a0489d7f3a6fdf1c84a, type: 3}
+    - sprite: {fileID: -1339498218, guid: c77d4165c5b82bb4cb030b685b1ca5f1, type: 3}
+    - sprite: {fileID: 1409459130, guid: c77d4165c5b82bb4cb030b685b1ca5f1, type: 3}
+    - sprite: {fileID: -1615758075, guid: c77d4165c5b82bb4cb030b685b1ca5f1, type: 3}
+    - sprite: {fileID: -1651843961, guid: c77d4165c5b82bb4cb030b685b1ca5f1, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:
