@@ -19,6 +19,11 @@ public class ResourceCollector : MonoBehaviour
     private NavMeshTest movement;
 
 
+    private void Awake()
+    {
+        homeBase = GameObject.FindGameObjectWithTag("Base").GetComponent<ResourceManager>();
+    }
+
     private void Start()
     {
         movement = GetComponent<NavMeshTest>();

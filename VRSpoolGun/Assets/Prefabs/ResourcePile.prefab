@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 4859198674895869688}
   - component: {fileID: 2687513090046447023}
   - component: {fileID: 2856280661875876031}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Cylinder
-  m_TagString: Untagged
+  m_TagString: Resource
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26,8 +26,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1266689130839703713}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.08, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.08, z: 0.2}
+  m_LocalPosition: {x: 0, y: 0.2, z: 0}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3295500686890087516}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 3295500686890087516}
   - component: {fileID: 1337498604468071161}
   - component: {fileID: 1138404074730489421}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: ResourcePile
   m_TagString: Resource
   m_Icon: {fileID: 0}
@@ -115,7 +115,7 @@ Transform:
   m_Children:
   - {fileID: 4859198674895869688}
   m_Father: {fileID: 0}
-  m_RootOrder: 28
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1337498604468071161
 MonoBehaviour:

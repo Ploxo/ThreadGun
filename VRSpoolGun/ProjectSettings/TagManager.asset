@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - NavMesh
+  - Ally
+  - Base
+  - Resource
   layers:
   - Default
   - TransparentFX
@@ -18,7 +22,7 @@ TagManager:
   - NPCs
   - Grabbable
   - PlayerMask
-  - 
+  - Resource
   - 
   - 
   - 

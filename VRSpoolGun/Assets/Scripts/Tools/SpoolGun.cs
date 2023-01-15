@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class SpoolGun : MonoBehaviour
 {
+    public bool gunMode = true;
+
     public int maxThread = 25;
     public int threadAmount = 25;
 
@@ -14,10 +16,11 @@ public class SpoolGun : MonoBehaviour
     [SerializeField] private MouseTrackerVR tracker; // tracker uses our resource
     public OVRInput.Button activateButton;
     public OVRInput.Button cancelButton;
-    public OVRInput.Button changeThreadButton;
+    public OVRInput.Button changeModeButton;
     //public OVRInput.Controller controller;
 
     [SerializeField] private Slider resourceBar; // Visuals for the resource
+    [SerializeField] private MarkerPen marker;
 
     private int tempAmount; // This amount is what remains after the current action. May reset if cancelled.
 
@@ -44,7 +47,27 @@ public class SpoolGun : MonoBehaviour
         tracker.OnPointAdd -= OnUpdateResource;
     }
 
+    public void SetGunMode(bool value)
+    {
+        gunMode = value;
+
+        marker.SetActiveMaterial(!gunMode);
+    }
+
     void Update()
+    {
+        if (OVRInput.GetDown(changeModeButton))
+        {
+            SetGunMode(!gunMode);
+        }
+
+        if (gunMode)
+            GunMode();
+        else
+            MarkerMode();
+    }
+
+    private void GunMode()
     {
         // Only start tracking if we aren't already
         if (OVRInput.GetDown(activateButton) && !tracker.tracking)
@@ -59,6 +82,12 @@ public class SpoolGun : MonoBehaviour
             if (EventSystem.current.IsPointerOverGameObject())
                 return;
 
+            tempAmount = threadAmount;
+            tracker.StartTracking(tempAmount);
+        }
+
+        if (tracker.tracking)
+        {
             // Cancel while holding the fire button using another button
             if (OVRInput.GetDown(cancelButton))
             {
@@ -66,17 +95,26 @@ public class SpoolGun : MonoBehaviour
                 UpdateBar(threadAmount);
                 return;
             }
+            else if (OVRInput.GetUp(activateButton))
+            {
+                tracker.FinishTracking();
 
-            tempAmount = threadAmount;
-            tracker.StartTracking(tempAmount);
+                threadAmount = tempAmount;
+                UpdateBar(threadAmount);
+            }
         }
-        // Stop tracking and try to create a patch once we let go of a button
-        if (tracker.tracking && OVRInput.GetUp(activateButton))
-        {
-            tracker.FinishTracking();
+    }
 
-            threadAmount = tempAmount;
-            UpdateBar(threadAmount);
+    private void MarkerMode()
+    {
+        if (OVRInput.Get(activateButton))
+        {
+            marker.Fire();
+        }
+
+        if (OVRInput.GetUp(activateButton))
+        {
+            marker.Hide();
         }
     }
 

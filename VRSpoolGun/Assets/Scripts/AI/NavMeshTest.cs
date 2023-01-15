@@ -65,13 +65,9 @@ public class NavMeshTest : MonoBehaviour
             return;
 
         if (isControlledByAgent && navMeshAgent.isStopped)
-        {
             SetAgentMovementActive(true);
-        }
-        else if (!isControlledByAgent && !navMeshAgent.isStopped)
-        {
+        else if ((!isControlledByAgent || !grounded) && !navMeshAgent.isStopped)
             SetAgentMovementActive(false);
-        }
 
         //navMeshAgent.SetDestination(movePositionTransforms[currentIndex].position);
 
@@ -113,14 +109,13 @@ public class NavMeshTest : MonoBehaviour
             navMeshAgent.nextPosition = transform.position;
             navMeshAgent.velocity = rb.velocity;
         }
-
     }
 
     private void FixedUpdate()
     {
         GroundCheck();
 
-        if (!isControlledByAgent)
+        if (!isControlledByAgent || !grounded)
             PhysicsMovement();
     }
 
@@ -146,7 +141,7 @@ public class NavMeshTest : MonoBehaviour
 
     private void PhysicsMovement()
     {
-        if (navMeshAgent.pathPending)
+        if (isControlledByAgent && navMeshAgent.pathPending)
             return;
 
         // Aim toward the next path point for rotation
@@ -170,6 +165,7 @@ public class NavMeshTest : MonoBehaviour
             rb.AddTorque(Vector3.Project(torqueVector, Vector3.up).normalized * torque, ForceMode.Acceleration);
         }
 
+        navMeshAgent.updatePosition = false;
         navMeshAgent.nextPosition = transform.position;
     }
 
@@ -181,17 +177,11 @@ public class NavMeshTest : MonoBehaviour
             if (rb.velocity.y < 0f && !grounded)
             {
                 grounded = true;
-
-                if (isControlledByAgent)
-                    SetAgentMovementActive(true);
             }
         }
         else if (grounded)
         {
             grounded = false; // No longer on the ground since raycast missed
-
-            if (isControlledByAgent)
-                SetAgentMovementActive(false);
         }
     }
 
@@ -200,6 +190,16 @@ public class NavMeshTest : MonoBehaviour
         Gizmos.DrawLine(transform.position, transform.position + Vector3.down * checkDistance);
 
         if (navMeshAgent != null)
+        {
             Gizmos.DrawWireSphere(transform.position, navMeshAgent.stoppingDistance);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(transform.position, navMeshAgent.velocity);
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawLine(transform.position, navMeshAgent.desiredVelocity);
+
+            Gizmos.DrawWireSphere(navMeshAgent.nextPosition, 0.5f);
+        }
+
+
     }
 }

@@ -6,7 +6,13 @@ using UnityEngine;
 public class ResourceManager : MonoBehaviour
 {
     public int playerResources = 0;
+
+    public LayerMask layers;
     public  List<Transform> spawnPoints;
+    public float timer = 40f;
+    public int spawnCount = 5;
+
+    public Transform resourceTarget;
 
     public TextMeshProUGUI resourceText;
 
@@ -21,10 +27,22 @@ public class ResourceManager : MonoBehaviour
         {
             GameObject go = Instantiate(resourcePrefab, spawnPoints[i].position, Quaternion.identity, gameObject.transform);
             resourceObjects.Add(go);
+            go.SetActive(false);
         }
 
-        SpawnResources(3);
+        InvokeRepeating("SpawnResources", 0f, timer);
     }
+
+    //private Vector3 RandomPosition(Vector3 min, Vector3 max)
+    //{
+    //    Vector3 halfExtents = resourcePrefab.GetComponent<MeshRenderer>().bounds.extents;
+    //    do
+    //    {
+    //        Vector3 position = new Vector3(Random.Range(min.x, max.x), 0f, Random.Range(min.z, max.z));
+    //    } while (Physics.CheckBox(position, halfExtents, resourcePrefab.transform.rotation, layers));
+
+
+    //}
 
     public bool GetRandomNode(out Transform target)
     {
@@ -53,10 +71,10 @@ public class ResourceManager : MonoBehaviour
     }
 
     // Random, unique points
-    public void SpawnResources(int amount)
+    public void SpawnResources()
     {
         ShufflePositions();
-        for (int i = 0; i < amount; i++)
+        for (int i = 0; i < spawnCount; i++)
         {
             resourceObjects[i].SetActive(true);
             resourceObjects[i].GetComponent<ResourceNode>().ResetNode();
