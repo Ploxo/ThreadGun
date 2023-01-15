@@ -8,7 +8,6 @@ public class Raycaster : MonoBehaviour
     [SerializeField] private float distance;
 
     public OVRInput.Button button;
-    public bool held = false;
 
 
     void FixedUpdate()
@@ -16,21 +15,17 @@ public class Raycaster : MonoBehaviour
         if (indicator == null)
             return;
 
-        //if (held)
-        //{
-            if (OVRInput.Get(button))
+        if (OVRInput.Get(button))
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(origin.position, origin.forward, out hit, distance, layerMask))
             {
-                RaycastHit hit;
-                if (Physics.Raycast(origin.position, origin.forward, out hit, distance, layerMask))
-                {
-                    indicator.position = hit.point;
-                }
+                indicator.position = hit.point;
             }
-            else
-            {
-                indicator.position = transform.position;
-            }
-        //}
-
+        }
+        else
+        {
+            indicator.position = transform.position;
+        }
     }
 }

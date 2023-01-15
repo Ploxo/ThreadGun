@@ -71,7 +71,7 @@ public class SpoolGun : MonoBehaviour
             tracker.StartTracking(tempAmount);
         }
         // Stop tracking and try to create a patch once we let go of a button
-        if (OVRInput.GetUp(activateButton))
+        if (tracker.tracking && OVRInput.GetUp(activateButton))
         {
             tracker.FinishTracking();
 

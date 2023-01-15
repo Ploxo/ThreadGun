@@ -1,18 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyNPC : MonoBehaviour
 {
+    [SerializeField] private double maxHealth = 100;
+    [SerializeField] private Slider slider;
 
-    private double health = 100;
-    // Start is called before the first frame update
+    private double health;
+
+
     void Start()
     {
-        
+        health = maxHealth;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (health <= 0) Destroy(gameObject);
@@ -21,5 +24,6 @@ public class EnemyNPC : MonoBehaviour
     public void Damaged(double amount)
     {
         health -= amount;
+        slider.value = (float)health;
     }
 }

@@ -6,17 +6,17 @@ public class FaceCamera : MonoBehaviour
 {
     public Canvas canvas;
 
-    public Transform target;
+    private Transform mainCamera;
 
 
     void Start()
     {
-        
+        mainCamera = Camera.main.transform;
     }
 
     void Update()
     {
-        transform.LookAt(target.position);
-        //canvas.transform.RotateAround(canvas.transform.position, canvas.transform.up, 180);
+        transform.LookAt(mainCamera.position);
+        transform.Rotate(0f, 180, 0f, Space.Self);
     }
 }

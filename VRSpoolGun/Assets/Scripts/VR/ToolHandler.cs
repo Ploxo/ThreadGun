@@ -7,11 +7,13 @@ using UnityEngine;
 
 public class ToolHandler : MonoBehaviour
 {
-    [Header("UI Components")]
+    [Header("Input")]
     public OVRInput.Button toolButton;
-    public OVRInput.Button threadButton;
+    //public OVRInput.Button threadButton;
+    public OVRInput.Button unequipButton;
     public OVRInput.Controller controller;
 
+    [Header("UI Components")]
     public GameObject canvas;
     public GameObject toolUI;
     public GameObject threadUI;
@@ -26,13 +28,8 @@ public class ToolHandler : MonoBehaviour
     public GrabInteractor grabInteractor; // Controller
     public HandGrabInteractor handGrabInteractor; // Hand
 
-    public Grabbable gunGrabbable;
-    public HandGrabInteractable gunInteractable;
-
-    public GameObject gun;
-
-    public List<AttachToHand> tools;
-    public AttachToHand currentTool;
+    public List<Transform> tools;
+    public Transform currentTool;
 
     public SyntheticHand hand;
 
@@ -51,9 +48,13 @@ public class ToolHandler : MonoBehaviour
         {
             OpenToolMenu();
         }
-        if (OVRInput.GetDown(threadButton, controller))
+        //if (OVRInput.GetDown(threadButton, controller))
+        //{
+        //    OpenThreadMenu();
+        //}
+        if (OVRInput.GetDown(unequipButton, controller))
         {
-            OpenThreadMenu();
+            Unequip();
         }
     }
 

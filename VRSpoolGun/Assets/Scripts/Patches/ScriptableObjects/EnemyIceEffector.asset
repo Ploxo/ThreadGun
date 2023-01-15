@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a62cc0cff0585db45b04c546e3f1d823, type: 3}
   m_Name: EnemyIceEffector
   m_EditorClassIdentifier: 
-  duration: 3
-  speedFactor: 2
+  duration: 4
+  speedFactor: 1.75
   rotationFactor: 0
-  accelerationFactor: 0.5
-  torqueFactor: 0.5
+  accelerationFactor: 1
+  torqueFactor: 0

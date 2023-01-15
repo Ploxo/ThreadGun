@@ -12,7 +12,10 @@ public class NPCNavMesh : MonoBehaviour
     [SerializeField]
     private float baseAccelerationForce = 10f; // ForceMode.Force should be scaled to time
     [SerializeField]
-    private float baseTorque = 2f; 
+    private float baseTorque = 2f;
+
+    public bool physicsDriven = true;
+    public bool loopWaypoints = true;
 
     public float moveSpeed;
     public float rotationSpeed;
@@ -36,18 +39,30 @@ public class NPCNavMesh : MonoBehaviour
         checkDistanceSq = GetComponent<CapsuleCollider>().radius + 0.05f;
         checkDistanceSq *= checkDistanceSq;
 
-        navMeshAgent.updatePosition = false;
-        navMeshAgent.updateRotation = false;
+        if (physicsDriven)
+        {
+            navMeshAgent.updatePosition = false;
+            navMeshAgent.updateRotation = false;
+        }
 
         ResetMovement();
     }
 
     public void ResetMovement()
     {
-        moveSpeed = baseMoveSpeed;
-        rotationSpeed = baseRotationSpeed;
-        accelerationForce = baseAccelerationForce;
-        torque = baseTorque;
+        if (physicsDriven)
+        {
+            moveSpeed = baseMoveSpeed;
+            rotationSpeed = baseRotationSpeed;
+            accelerationForce = baseAccelerationForce;
+            torque = baseTorque;
+        }
+        else
+        {
+            navMeshAgent.speed = baseMoveSpeed;
+            navMeshAgent.angularSpeed = baseRotationSpeed;
+            navMeshAgent.acceleration = baseAccelerationForce;
+        }
     }
 
     private void Update()
@@ -59,19 +74,31 @@ public class NPCNavMesh : MonoBehaviour
 
         if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance + 0.001f)
         {
-            currentIndex = (currentIndex + 1) % movePositionTransforms.Count;
+            if (loopWaypoints)
+            {
+                currentIndex = (currentIndex + 1) % movePositionTransforms.Count;
+            }
+            else
+            {
+                currentIndex = Mathf.Min((currentIndex + 1), movePositionTransforms.Count - 1);
+            }
         }
     }
 
     private void FixedUpdate()
     {
-        MoveAgent();
+        if (physicsDriven)
+        {
+            MoveAgent();
+        }
     }
 
     private void MoveAgent()
     {
         if (navMeshAgent.pathPending)
             return;
+
+        Debug.Log("Desired velocity: " + navMeshAgent.desiredVelocity);
 
         // Aim toward the next path point for rotation
         Vector3 direction = (navMeshAgent.steeringTarget - transform.position);

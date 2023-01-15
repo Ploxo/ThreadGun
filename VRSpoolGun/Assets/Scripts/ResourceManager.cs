@@ -1,24 +1,55 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ResourceManager : MonoBehaviour
 {
     public int playerResources = 0;
-    public  List<Vector3> spawnPoints;
+    public  List<Transform> spawnPoints;
+
+    public TextMeshProUGUI resourceText;
 
     [SerializeField] private GameObject resourcePrefab;
 
-    private List<GameObject> resourceObjects;
+    private List<GameObject> resourceObjects = new List<GameObject>();
 
 
-    void Start()
+    private void Awake()
     {
         for (int i = 0; i < spawnPoints.Count; i++)
         {
-            GameObject go = Instantiate(resourcePrefab, spawnPoints[i], Quaternion.identity, gameObject.transform);
+            GameObject go = Instantiate(resourcePrefab, spawnPoints[i].position, Quaternion.identity, gameObject.transform);
             resourceObjects.Add(go);
         }
+
+        SpawnResources(3);
+    }
+
+    public bool GetRandomNode(out Transform target)
+    {
+        target = null;
+
+        ShufflePositions();
+
+        int i = 0;
+        while (i < resourceObjects.Count)
+        {
+            if (resourceObjects[i].activeSelf)
+            {
+                target = resourceObjects[i].transform;
+                return true;
+            }
+            i++;
+        }
+
+        return false;
+    }
+
+    public void AddResource(int amountToAdd)
+    {
+        playerResources = Mathf.Min(100, playerResources + amountToAdd);
+        resourceText.text = "Resources: " + playerResources;
     }
 
     // Random, unique points

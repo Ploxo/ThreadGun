@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BaseSpawner : MonoBehaviour
 {
+    private Transform parent;
 
     private int buffer = 40; 
     public GameObject eBase;
@@ -18,6 +19,8 @@ public class BaseSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        parent = GameObject.FindGameObjectWithTag("NavMesh").transform;
+
         if (buffer < 4) buffer = 4;
         spawnTime = buffer - (int)buffer / 4;
         resetTime = spawnTime - 1;
@@ -61,7 +64,7 @@ public class BaseSpawner : MonoBehaviour
 
             if (!Physics.CheckBox(boxPosition, eBase.transform.localScale, Quaternion.identity, spawnLayer))
             {
-                GameObject newBase = Instantiate(eBase, boxPosition, Quaternion.identity);
+                GameObject newBase = Instantiate(eBase, boxPosition, Quaternion.identity, parent);
                 newBase.GetComponent<EnemyBase>().creator = this;
                 break;
             }

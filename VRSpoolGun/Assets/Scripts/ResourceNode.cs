@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class ResourceNode : MonoBehaviour
 {
-    [SerializeField] private int capacity = 5;
+    public List<GameObject> gatherers;
+    public int maxGatherers = 1;
+    public int capacity = 5;
 
     private int amount = 0;
+
+    public int Amount
+    {
+        get { return amount; }
+    }
 
 
     void Start()
@@ -19,15 +26,34 @@ public class ResourceNode : MonoBehaviour
         amount = capacity;
     }
 
-    private void OnTriggerEnter(Collider other)
+    public bool AddGatherer(GameObject gatherer)
     {
-        if (other.CompareTag("Gatherer"))
-        {
-            // Give resource to collectors, if they have capacity
-            amount = other.GetComponent<ResourceCollector>().AddResource(amount);
+        if (gatherers.Contains(gatherer)) 
+            return false;
 
-            if (amount == 0)
-                gameObject.SetActive(false);
-        }
+        if (gatherers.Count < maxGatherers) 
+            gatherers.Add(gatherer);
+
+        return true;
+    }
+
+    public void RemoveGatherer(GameObject gatherer)
+    {
+        if (!gatherers.Contains(gatherer))
+            return;
+
+        gatherers.Remove(gatherer);
+    }
+
+    public int ProvideResource(int maxValue)
+    {
+        int value = maxValue - (maxValue - amount);
+
+        amount = Mathf.Max(0, amount - value);
+
+        if (amount == 0)
+            gameObject.SetActive(false);
+
+        return value;
     }
 }

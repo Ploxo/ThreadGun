@@ -9,7 +9,7 @@ public class EffectManager2 : MonoBehaviour
 
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private float raycastRange = 1.1f;
-    [SerializeField] private EnemyMovement movement;
+    [SerializeField] private MovementController movement;
 
     private ParticleSystem[] particles;
     private float currentDuration = 0f;
@@ -35,14 +35,9 @@ public class EffectManager2 : MonoBehaviour
             if (patch != null)
             {
                 if (patch.patchType != currentType)
-                {
-                    Debug.LogWarning("Found other type");
                     SwapEffect(patch.patchType);
-                }
                 else
-                {
                     RefreshTimer();
-                }
             }
             else
             {
@@ -65,13 +60,23 @@ public class EffectManager2 : MonoBehaviour
     private void RefreshTimer()
     {
         currentDuration = ThreadManager.Instance.GetThread(currentType).effector.duration;
-        movement.SetMovementType(currentType);
+
+        if (currentType == ThreadType.Lava)
+            GetComponent<DamageOverTime>().Refresh();
+        else if (currentType == ThreadType.Ice)
+            GetComponent<IceMovement>().Refresh();
+        else
+            GetComponent<GumMovement>().Refresh();
     }
 
     // Start a timed effect
     private IEnumerator EffectTimer()
     {
-        movement.SetMovementType(currentType);
+        if (currentType != ThreadType.Lava)
+            movement.SetMovementType(currentType);
+        else
+            ThreadManager.Instance.GetThread(currentType).effector.ApplyEffect(gameObject);
+
         PlayParticles((int)currentType);
 
         while (currentDuration > 0f)
@@ -81,7 +86,9 @@ public class EffectManager2 : MonoBehaviour
             yield return null;
         }
 
-        movement.SetMovementType(ThreadType.None);
+        if (currentType != ThreadType.Lava)
+            movement.SetMovementType(ThreadType.None);
+
         StopParticles();
 
         yield return null;

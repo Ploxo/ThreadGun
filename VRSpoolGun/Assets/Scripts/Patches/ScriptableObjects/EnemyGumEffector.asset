@@ -17,7 +17,7 @@ MonoBehaviour:
   layers:
     serializedVersion: 2
     m_Bits: 256
-  speedFactor: 1
-  rotationFactor: 1
-  accelerationFactor: 1
+  speedFactor: 0.25
+  rotationFactor: 0.5
+  accelerationFactor: 0.75
   torqueFactor: 1

@@ -11,11 +11,14 @@ public class EnemyBase : MonoBehaviour
     public BaseSpawner creator;
     private GameObject newEnemy = null;
 
+    private Transform enemyTarget;
+
     public GameObject enemy;
 
     // Start is called before the first frame update
     void Start()
     {
+        enemyTarget = GameObject.FindGameObjectWithTag("Base").transform;
     }
 
     // Update is called once per frame
@@ -44,5 +47,6 @@ public class EnemyBase : MonoBehaviour
     void SpawnEnemy()
     {
         newEnemy = Instantiate(enemy, gameObject.transform.position, Quaternion.identity);
+        newEnemy.GetComponent<NavMeshTest>().SetTargetTransform(enemyTarget);
     }
 }

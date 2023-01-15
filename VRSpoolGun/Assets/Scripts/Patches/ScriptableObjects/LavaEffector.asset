@@ -12,3 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f3e848ac00eabc4eb2bd24137801f12, type: 3}
   m_Name: LavaEffector
   m_EditorClassIdentifier: 
+  duration: 3
+  tick: 0.25
+  damage: 5

@@ -8,12 +8,12 @@ public class GumMovement : MonoBehaviour, IRefreshable
     public GumEffector data;
 
     Rigidbody rb;
-    NPCNavMesh movement;
+    NavMeshAgent agent;
+    NavMeshTest movement;
 
     public LayerMask layers;
 
     private float duration;
-    private bool isGrounded = true;
 
 
     private void Awake()
@@ -21,18 +21,24 @@ public class GumMovement : MonoBehaviour, IRefreshable
         //data = (GumEffector)ThreadManager.Instance.GetThread(ThreadType.Gum).effector;
 
         rb = GetComponent<Rigidbody>();
-        movement = GetComponent<NPCNavMesh>();
+        agent = GetComponent<NavMeshAgent>();
+        movement = GetComponent<NavMeshTest>();
 
         layers = data.layers;
     }
 
     private void OnEnable()
     {
-        movement.ResetMovement();
-        movement.moveSpeed *= data.speedFactor;
-        movement.rotationSpeed *= data.rotationFactor;
-        movement.accelerationForce *= data.accelerationFactor;
-        movement.torque *= data.torqueFactor;
+        //movement.ResetMovement();
+
+        //movement.moveSpeed *= data.speedFactor;
+        //movement.rotationSpeed *= data.rotationFactor;
+        //movement.accelerationForce *= data.accelerationFactor;
+        //movement.torque *= data.torqueFactor;
+
+        agent.speed *= data.speedFactor;
+        agent.angularSpeed *= data.rotationFactor;
+        agent.acceleration *= data.accelerationFactor;
     }
 
     private void OnDisable()
@@ -45,12 +51,9 @@ public class GumMovement : MonoBehaviour, IRefreshable
         RaycastHit hit;
         if (Physics.Raycast(transform.position, Vector3.down, out hit, 0.35f, layers))
         {
-            isGrounded = true;
 
             rb.AddForce(Vector3.up * data.force, ForceMode.Impulse);
         }
-
-        isGrounded = false;
     }
 
     public void Refresh()

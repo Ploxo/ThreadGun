@@ -28,8 +28,6 @@ public class Patch : MonoBehaviour
     {
         rend = GetComponent<MeshRenderer>();
 
-        //particlePatch.Play();
-
         //anim = GetComponent<AnimatePath>();
         //anim.target = threadObject;
 
@@ -37,11 +35,9 @@ public class Patch : MonoBehaviour
         //StartCoroutine(BuildPatchCoroutine());
     }
 
-    private IEnumerator WaitPlayParticles()
+    public void Cut()
     {
-        yield return new WaitForEndOfFrame();
-
-        particlePatch.Play();
+        Destroy(gameObject);
     }
 
     //private IEnumerator BuildPatchCoroutine()

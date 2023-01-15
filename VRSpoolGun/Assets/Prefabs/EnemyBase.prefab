@@ -111,4 +111,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   creator: {fileID: 0}
-  enemy: {fileID: 3113134703952417056, guid: 1aa4bffbb98429d4ba6d49398cac70ff, type: 3}
+  enemy: {fileID: 7887676273606902760, guid: 77ab93a710946a1459be558002c19eff, type: 3}

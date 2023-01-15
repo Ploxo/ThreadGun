@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Rendering;
@@ -7,6 +8,7 @@ using UnityEngine.Rendering;
 public class PolygonGenerator : MonoBehaviour
 {
     public List<GameObject> patches = new List<GameObject>();
+    private GameObject navMeshObject;
 
     public float segmentSpeed = 3f;
     public float stopTime = 0.05f;
@@ -17,6 +19,11 @@ public class PolygonGenerator : MonoBehaviour
 
     private float offset = 0.00025f;
 
+
+    private void Start()
+    {
+        navMeshObject = GameObject.FindGameObjectWithTag("NavMesh");
+    }
 
     public void CreatePatch(Vector3[] points)
     {
@@ -49,13 +56,22 @@ public class PolygonGenerator : MonoBehaviour
         ParticleSystem.ShapeModule sm = ps.shape;
         sm.meshRenderer = renderer;
 
-        //if (thread.threadType == ThreadType.Lava)
-            //{
-            var obstacle = meshObject.AddComponent<NavMeshObstacle>();
-            //obstacle.center = center;
-            obstacle.size = GeometryUtils.GetBounds(points).size;
-            obstacle.height = 0.5f;
-        //}
+        if (thread.threadType == ThreadType.Lava)
+        {
+            //var obstacle = meshObject.AddComponent<NavMeshObstacle>();
+            ////obstacle.center = center;
+            //obstacle.size = GeometryUtils.GetBounds(points).size;
+            //obstacle.height = 0.5f;
+
+            NavMeshModifier modifier = meshObject.AddComponent<NavMeshModifier>();
+            modifier.overrideArea = true;
+            modifier.area = 3;
+            modifier.AffectsAgentType(0);
+
+            meshObject.transform.SetParent(navMeshObject.transform);
+
+            NavMeshGenerator.Instance.GenerateHumanoid();
+        }
 
         //TrailRenderer trail = Instantiate(threadPrefab).GetComponent<TrailRenderer>();
         //patch.threadObject = trail.transform;

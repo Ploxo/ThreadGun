@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyMovement : MonoBehaviour
+public class MovementController : MonoBehaviour
 {
     ThreadType currentType;
 
     public Transform visuals;
-    public NPCNavMesh movement;
+    public NavMeshTest movement;
 
     [SerializeField]
     private IceEffector iceData;
@@ -38,6 +38,8 @@ public class EnemyMovement : MonoBehaviour
         {
             iceMovement.enabled = false;
             gumMovement.enabled = false;
+            movement.SetAgentActive(true);
+            Debug.Log("Set back to agent");
         }
         else if (type == ThreadType.Ice)
         {
@@ -46,6 +48,8 @@ public class EnemyMovement : MonoBehaviour
 
             gumMovement.enabled = false;
             iceMovement.enabled = true;
+            movement.SetAgentActive(false);
+            Debug.Log("Set to Ice");
         }
         else if (type == ThreadType.Gum)
         {
@@ -54,6 +58,8 @@ public class EnemyMovement : MonoBehaviour
 
             iceMovement.enabled = false;
             gumMovement.enabled = true;
+            movement.SetAgentActive(false);
+            Debug.Log("Set to Gum");
         }
     }
 }
