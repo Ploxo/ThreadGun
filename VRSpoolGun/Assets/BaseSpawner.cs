@@ -6,14 +6,14 @@ public class BaseSpawner : MonoBehaviour
 {
     private Transform parent;
 
-    private int buffer = 40; 
+    private int buffer = 4; 
     public GameObject eBase;
     private bool canSpawn;
     private int bases = 0;
     private int resetTime;
     private int spawnTime;
-    private int maxbases = 3;
-    private int minRange = 4;
+    private int maxbases = 30;
+    private float minRange = 3.4f;
 
     [SerializeField] LayerMask spawnLayer;
     // Start is called before the first frame update
@@ -51,16 +51,18 @@ public class BaseSpawner : MonoBehaviour
         for (int i = 0; i < 100; i++)
         {
             //Debug.Log("in da loop");
-            float x = Random.Range(-9.3f, 9.3f);
-            float z = Random.Range(-9.3f, 9.3f);
+            float x = Random.Range(-9.5f, 9.5f);
+            float z = Random.Range(-9.5f, 9.5f);
             while ((x > -minRange && x < minRange) && (z > -minRange && z < minRange)) 
             {
-                x = Random.Range(-9.3f, 9.3f);
-                z = Random.Range(-9.3f, 9.3f);
+                x = Random.Range(-9.5f, 9.5f);
+                z = Random.Range(-9.5f, 9.5f);
+                Debug.Log("while loop x=" + x);
             }
-            //Debug.Log("x=" + x + " y=" +z);
+            Debug.Log("x=" + x + " z=" +z);
 
-            Vector3 boxPosition = new Vector3(x,0,z);
+            Vector3 boxPosition = new Vector3(x, 0,z);
+            Debug.Log("box position x=" + x + " box position z=" + z);
 
             if (!Physics.CheckBox(boxPosition, eBase.transform.localScale, Quaternion.identity, spawnLayer))
             {
