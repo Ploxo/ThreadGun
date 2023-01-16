@@ -17,8 +17,10 @@ public class ResourceManager : MonoBehaviour
     public TextMeshProUGUI resourceText;
 
     [SerializeField] private GameObject resourcePrefab;
+    [SerializeField] private List<ResourceCollector> gatherers;
 
     private List<GameObject> resourceObjects = new List<GameObject>();
+
 
 
     private void Awake()
@@ -31,6 +33,20 @@ public class ResourceManager : MonoBehaviour
         }
 
         InvokeRepeating("SpawnResources", 0f, timer);
+    }
+
+    private void Start()
+    {
+        resourceText.text = "Resources: " + playerResources;
+    }
+
+    public void SetResourceTarget(Transform target)
+    {
+        resourceTarget = target;
+        foreach (var gatherer in gatherers)
+        {
+            gatherer.SetTarget(target);
+        }
     }
 
     //private Vector3 RandomPosition(Vector3 min, Vector3 max)
@@ -66,8 +82,26 @@ public class ResourceManager : MonoBehaviour
 
     public void AddResource(int amountToAdd)
     {
-        playerResources = Mathf.Min(100, playerResources + amountToAdd);
+        playerResources = Mathf.Min(Mathf.Max(0, playerResources + amountToAdd), 150);
         resourceText.text = "Resources: " + playerResources;
+    }
+
+    [SerializeField] Collider reloadZone;
+    public int RetrieveResource(Vector3 position, int desiredAmount)
+    {
+        Vector3 closestPoint = reloadZone.ClosestPoint(position);
+        if (closestPoint != position)
+            return 0;
+
+        int amount;
+        if (desiredAmount <= playerResources)
+            amount = desiredAmount;
+        else
+            amount = playerResources;
+
+        playerResources = playerResources - amount;
+
+        return amount;
     }
 
     // Random, unique points

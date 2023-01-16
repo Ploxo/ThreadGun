@@ -15,7 +15,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3632965370767327316
 Transform:
   m_ObjectHideFlags: 0
@@ -148,7 +148,7 @@ Transform:
   - {fileID: 8431007367387845463}
   - {fileID: 1051821470615239945}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -92.78, z: 0}
 --- !u!114 &3632965371242274015
 MonoBehaviour:
@@ -165,12 +165,12 @@ MonoBehaviour:
   origin: {fileID: 3632965372177945367}
   layerMask:
     serializedVersion: 2
-    m_Bits: 4096
-  distance: 0
+    m_Bits: 4352
+  distance: 100
   indicator: {fileID: 8431007367387845463}
   lightRenderer: {fileID: 3632965370903561958}
-  emissionColor: {r: 0, g: 0.6114483, b: 1, a: 0}
-  emissionIntensity: 2
+  emissionColor: {r: 0.121568635, g: 0.6, b: 0.9960785, a: 1}
+  emissionIntensity: 10
   particles: {fileID: 4395877958815434092}
 --- !u!1 &3632965372177945352
 GameObject:

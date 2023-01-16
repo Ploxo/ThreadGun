@@ -32,8 +32,6 @@ public class Bolt : MonoBehaviour
     void Start()
     {
         OnValidate();
-
-        gun = GetComponentInParent<SpoolGun>();
     }
 
     private void Update()

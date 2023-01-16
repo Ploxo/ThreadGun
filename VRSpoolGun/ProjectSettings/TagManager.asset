@@ -9,6 +9,7 @@ TagManager:
   - Ally
   - Base
   - Resource
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -23,7 +24,7 @@ TagManager:
   - Grabbable
   - PlayerMask
   - Resource
-  - 
+  - TriggerZones
   - 
   - 
   - 

@@ -7,7 +7,8 @@ public class NavMeshTest : MonoBehaviour
 {
     public bool isControlledByAgent = true;
 
-    public LayerMask layers;
+    public LayerMask groundLayers;
+    public LayerMask collisionLayers;
     public float torque = 60f;
 
     private NavMeshAgent navMeshAgent;
@@ -43,9 +44,10 @@ public class NavMeshTest : MonoBehaviour
     {
         if (!navMeshAgent.pathPending)
         {
+            //Debug.Log(navMeshAgent.stoppingDistance + ", " + navMeshAgent.remainingDistance);
             if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
             {
-                if (!navMeshAgent.hasPath || 
+                if (
                     rb.velocity.sqrMagnitude < 0.001f &&
                     navMeshAgent.velocity.sqrMagnitude <= 0.001f)
                 {
@@ -151,7 +153,7 @@ public class NavMeshTest : MonoBehaviour
         //Raycast for immediate obstacles; since we control the agent, it can get into weird spots
        bool obstacle = false;
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, checkDistanceSq))
+        if (Physics.Raycast(transform.position, transform.forward, out hit, checkDistanceSq, collisionLayers))
         {
             obstacle = (hit.point - transform.position).sqrMagnitude < checkDistanceSq;
         }
@@ -172,7 +174,7 @@ public class NavMeshTest : MonoBehaviour
     private void GroundCheck()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, checkDistance, layers))
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, checkDistance, groundLayers))
         {
             if (rb.velocity.y < 0f && !grounded)
             {

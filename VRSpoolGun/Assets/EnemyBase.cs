@@ -47,6 +47,6 @@ public class EnemyBase : MonoBehaviour
     void SpawnEnemy()
     {
         newEnemy = Instantiate(enemy, gameObject.transform.position, Quaternion.identity);
-        newEnemy.GetComponent<NavMeshTest>().SetTargetTransform(enemyTarget);
+        newEnemy.transform.GetChild(0).GetComponent<NavMeshTest>().SetTargetTransform(enemyTarget);
     }
 }

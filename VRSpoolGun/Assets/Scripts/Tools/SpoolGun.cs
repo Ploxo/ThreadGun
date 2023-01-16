@@ -21,6 +21,7 @@ public class SpoolGun : MonoBehaviour
 
     [SerializeField] private Slider resourceBar; // Visuals for the resource
     [SerializeField] private MarkerPen marker;
+    [SerializeField] private ResourceManager resourceManager;
 
     private int tempAmount; // This amount is what remains after the current action. May reset if cancelled.
 
@@ -126,10 +127,10 @@ public class SpoolGun : MonoBehaviour
         tracker.SetMaterial((ThreadType)type);
     }
 
-    // Refill our resource
+    // Refill our resource if in reload area
     public void Reload()
     {
-        threadAmount = maxThread;
+        threadAmount += resourceManager.RetrieveResource(transform.position, maxThread - threadAmount);
         UpdateBar(threadAmount);
     }
 

@@ -68,32 +68,28 @@ public class ToolHandler : MonoBehaviour
         canvas.SetActive(toolUI.activeSelf);
     }
 
-    private void OpenThreadMenu()
-    {
-        threadUI.SetActive(!threadUI.activeSelf);
+    //private void OpenThreadMenu()
+    //{
+    //    threadUI.SetActive(!threadUI.activeSelf);
 
-        if (threadUI.activeSelf)
-            toolUI.SetActive(false);
+    //    if (threadUI.activeSelf)
+    //        toolUI.SetActive(false);
 
-        canvas.SetActive(threadUI.activeSelf);
-    }
+    //    canvas.SetActive(threadUI.activeSelf);
+    //}
 
     public void EquipTool(int index)
     {
-        //if (currentTool != null)
-        //    currentTool.gameObject.SetActive(false);
-
         currentTool = tools[index];
         currentTool.gameObject.SetActive(true);
 
         if (grabInteractor.gameObject.activeInHierarchy)
         {
-            grabInteractor.ForceSelect(currentTool.GetComponentInChildren<GrabInteractable>());
+            StartCoroutine(EquipAfterOneFrame(false));
         }
         else if (handGrabInteractor.gameObject.activeInHierarchy)
         {
-            HandGrabInteractable handGrab = currentTool.GetComponentInChildren<HandGrabInteractable>();
-            handGrabInteractor.ForceSelect(handGrab);
+            StartCoroutine(EquipAfterOneFrame(true));
         }
 
         //grabInteractor.Hover();
@@ -109,6 +105,21 @@ public class ToolHandler : MonoBehaviour
         //currentTool = tools[index];
         //currentTool.gameObject.SetActive(true);
         //currentTool.AttachWithOffset(rightAnchor.transform);
+    }
+
+    private IEnumerator EquipAfterOneFrame(bool useHandGrab)
+    {
+        yield return new WaitForEndOfFrame();
+
+        if (useHandGrab)
+        {
+            HandGrabInteractable handGrab = currentTool.GetComponentInChildren<HandGrabInteractable>(true);
+            handGrabInteractor.ForceSelect(handGrab);
+        }
+        else
+        {
+            grabInteractor.ForceSelect(currentTool.GetComponentInChildren<GrabInteractable>(true));
+        }
     }
 
     public void Unequip()

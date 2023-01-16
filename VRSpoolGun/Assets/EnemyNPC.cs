@@ -24,6 +24,8 @@ public class EnemyNPC : MonoBehaviour
     public void Damaged(double amount)
     {
         health -= amount;
-        slider.value = (float)health;
+
+        if (slider != null)
+            slider.value = (float)health;
     }
 }

@@ -307,7 +307,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 2940624222778447907}
   m_FillRect: {fileID: 4062516688685971807}
   m_HandleRect: {fileID: 7348821631453990530}
@@ -551,9 +551,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1266858485473149477}
-  - {fileID: 737598786189595616}
   - {fileID: 3133365557980415351}
+  - {fileID: 737598786189595616}
+  - {fileID: 1266858485473149477}
   m_Father: {fileID: 7887676274646747256}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
@@ -734,7 +734,7 @@ GameObject:
   - component: {fileID: 7887676273606902759}
   m_Layer: 9
   m_Name: Enemy
-  m_TagString: Ally
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -753,7 +753,7 @@ Transform:
   m_Children:
   - {fileID: 7887676274646747256}
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7887676273980955897
 GameObject:
@@ -860,7 +860,7 @@ GameObject:
   - component: {fileID: 7887676274646747212}
   m_Layer: 9
   m_Name: Capsule
-  m_TagString: Ally
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1014,9 +1014,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isControlledByAgent: 1
-  layers:
+  groundLayers:
     serializedVersion: 2
     m_Bits: 256
+  collisionLayers:
+    serializedVersion: 2
+    m_Bits: 1
   torque: 60
   baseMoveSpeed: 1
   baseAngularSpeed: 360
@@ -1115,7 +1118,7 @@ PrefabInstance:
     - target: {fileID: 1427646314316375003, guid: 07f503f77f7731d41af3253a45bb2726,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1427646314316375003, guid: 07f503f77f7731d41af3253a45bb2726,
         type: 3}

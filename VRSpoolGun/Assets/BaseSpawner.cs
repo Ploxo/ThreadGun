@@ -6,13 +6,15 @@ public class BaseSpawner : MonoBehaviour
 {
     private Transform parent;
 
-    private int buffer = 4; 
+    //public int baseBuffer = 4;
+
+    private int buffer = 40;
     public GameObject eBase;
     private bool canSpawn;
     private int bases = 0;
     private int resetTime;
     private int spawnTime;
-    private int maxbases = 30;
+    private int maxbases = 3;
     private float minRange = 3.4f;
 
     [SerializeField] LayerMask spawnLayer;

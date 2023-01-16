@@ -28,9 +28,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1266858485473149477}
-  - {fileID: 737598786189595616}
   - {fileID: 3133365557980415351}
+  - {fileID: 737598786189595616}
+  - {fileID: 1266858485473149477}
   m_Father: {fileID: 7887676274646747256}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
@@ -51,7 +51,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7887676273279424313
 Transform:
   m_ObjectHideFlags: 0
@@ -335,6 +335,7 @@ GameObject:
   - component: {fileID: 7887676274646747215}
   - component: {fileID: 7887676274646747212}
   - component: {fileID: 7887676274646747208}
+  - component: {fileID: 7382595583287306511}
   m_Layer: 9
   m_Name: Capsule
   m_TagString: Ally
@@ -460,7 +461,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 1.76
-  m_BaseOffset: 0.6
+  m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &7887676274646747213
@@ -476,14 +477,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isControlledByAgent: 1
-  layers:
+  groundLayers:
     serializedVersion: 2
     m_Bits: 256
-  torque: 50
-  baseMoveSpeed: 3
-  baseAngularSpeed: 2
+  collisionLayers:
+    serializedVersion: 2
+    m_Bits: 1
+  torque: 60
+  baseMoveSpeed: 1
+  baseAngularSpeed: 360
   baseAcceleration: 10
-  baseTorque: 60
+  baseTorque: 10
   movePositionTransforms:
   - {fileID: 0}
   - {fileID: 0}
@@ -571,6 +575,20 @@ MonoBehaviour:
   target: {fileID: 0}
   homeBase: {fileID: 0}
   capacity: 5
+--- !u!114 &7382595583287306511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7887676274646747257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30c071ebefbc71b45a3aafeaaff98545, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 999
+  slider: {fileID: 0}
 --- !u!1001 &4083629744839780012
 PrefabInstance:
   m_ObjectHideFlags: 0

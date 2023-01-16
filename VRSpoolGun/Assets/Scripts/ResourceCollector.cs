@@ -18,6 +18,9 @@ public class ResourceCollector : MonoBehaviour
 
     private NavMeshTest movement;
 
+    bool gathering = false;
+    bool droppingOff = false;
+
 
     private void Awake()
     {
@@ -27,9 +30,28 @@ public class ResourceCollector : MonoBehaviour
     private void Start()
     {
         movement = GetComponent<NavMeshTest>();
+    }
 
-        if (homeBase.GetRandomNode(out target))
-            SetTarget(target);
+    private void Update()
+    {
+        if (target == null)
+        {
+            if (carried == capacity)
+            {
+                SetTarget(homeBase.transform);
+            }
+            else
+            {
+                if (homeBase.resourceTarget != null)
+                    SetTarget(homeBase.resourceTarget);
+                else
+                    SetTarget(homeBase.transform);
+            }
+        }
+        else if (carried < capacity && homeBase.resourceTarget != null)
+        {
+            SetTarget(homeBase.resourceTarget);
+        }
     }
 
     public void SetTarget(Transform newTarget)
@@ -43,9 +65,22 @@ public class ResourceCollector : MonoBehaviour
         carried += value;
     }
 
+    public void StopGathering()
+    {
+        StopAllCoroutines();
+        gathering = false;
+        //target.GetComponent<ResourceNode>().RemoveGatherer(this);
+
+        //movement.SetAgentActive(true);
+        target = null;
+    }
+
     private IEnumerator Gather()
     {
         Debug.Log("Start gather");
+        //movement.SetAgentActive(false);
+
+        gathering = true;
 
         float time = 0f;
         while (time < gatherTime)
@@ -56,13 +91,22 @@ public class ResourceCollector : MonoBehaviour
         }
 
         AddResource(target.GetComponent<ResourceNode>().ProvideResource(capacity - carried));
-        onGatherComplete?.Invoke();
+        target.GetComponent<ResourceNode>().RemoveGatherer(this);
+        //onGatherComplete?.Invoke();
 
-        SetTarget(homeBase.transform);
+        //movement.SetAgentActive(true);
+        target = null;
+
+        gathering = false;
     }
 
     private IEnumerator Dropoff()
     {
+        Debug.Log("Started dropoff");
+        //movement.SetAgentActive(false);
+
+        droppingOff = true;
+
         float time = 0f;
         while (time < dropoffTime)
         {
@@ -74,31 +118,33 @@ public class ResourceCollector : MonoBehaviour
         homeBase.AddResource(carried);
         carried = 0;
 
-        if (homeBase.GetRandomNode(out target))
-            SetTarget(target);
+        //movement.SetAgentActive(true);
+        target = null;
+
+        droppingOff = false;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.transform == target && other.CompareTag("Resource"))
         {
-
             ResourceNode node = other.GetComponent<ResourceNode>();
-            if (node.Amount > 0 && node.AddGatherer(gameObject))
+            if (!gathering && node.Amount > 0 && node.AddGatherer(this))
             {
                 Debug.Log("Found node");
                 StartCoroutine(Gather());
             }
         }
-        else if (carried > 0 && other.transform == homeBase.transform && other.CompareTag("Base"))
+        else if (!droppingOff && carried > 0 && other.transform.parent == homeBase.transform && other.CompareTag("Base"))
         {
+            Debug.Log("Found base");
             StartCoroutine(Dropoff());
         }
 
-        if (movement.DestinationReached())
-        {
+        //if (movement.DestinationReached())
+        //{
+        //    Debug.Log("reached destination");
 
-
-        }
+        //}
     }
 }

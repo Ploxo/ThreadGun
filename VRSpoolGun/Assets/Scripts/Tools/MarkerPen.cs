@@ -34,9 +34,10 @@ public class MarkerPen : MonoBehaviour
             {
                 if (hitTarget == null || hitTarget != hit.transform)
                 {
-                    indicator.position = hit.transform.position;
+                    indicator.position = hit.transform.position + Vector3.up * 0.5f;
                     indicator.parent = hit.transform;
-                    indicator.Rotate(new Vector3(Random.Range(-30, 30), Random.Range(-30, 30), Random.Range(-30, 30)));
+                    indicator.rotation = 
+                        Quaternion.Euler(Random.Range(-20, 20), Random.Range(-20, 20), Random.Range(-20, 20));
 
                     hitTarget = hit.transform;
                 }
@@ -59,12 +60,12 @@ public class MarkerPen : MonoBehaviour
         if (hitTarget != null)
         {
             resourceManager.resourceTarget = hitTarget;
-            particles.Play();
+            //particles.Play();
         }
         else
         {
             resourceManager.resourceTarget = null;
-            particles.Stop();
+            //particles.Stop();
         }
     }
 

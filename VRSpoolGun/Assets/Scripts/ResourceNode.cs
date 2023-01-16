@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class ResourceNode : MonoBehaviour
 {
-    public List<GameObject> gatherers;
+    private ResourceManager resourceManager;
+
+    public List<ResourceCollector> gatherers;
     public int maxGatherers = 1;
     public int capacity = 5;
 
@@ -18,6 +20,7 @@ public class ResourceNode : MonoBehaviour
 
     void Start()
     {
+        resourceManager = GameObject.FindGameObjectWithTag("Base").GetComponent<ResourceManager>();
         ResetNode();
     }
 
@@ -26,7 +29,7 @@ public class ResourceNode : MonoBehaviour
         amount = capacity;
     }
 
-    public bool AddGatherer(GameObject gatherer)
+    public bool AddGatherer(ResourceCollector gatherer)
     {
         if (gatherers.Contains(gatherer)) 
             return false;
@@ -37,7 +40,7 @@ public class ResourceNode : MonoBehaviour
         return true;
     }
 
-    public void RemoveGatherer(GameObject gatherer)
+    public void RemoveGatherer(ResourceCollector gatherer)
     {
         if (!gatherers.Contains(gatherer))
             return;
@@ -47,13 +50,27 @@ public class ResourceNode : MonoBehaviour
 
     public int ProvideResource(int maxValue)
     {
-        int value = maxValue - (maxValue - amount);
+        int returnValue;
+        if (maxValue <= amount)
+            returnValue = maxValue;
+        else
+            returnValue = amount;
 
-        amount = Mathf.Max(0, amount - value);
+        amount = amount - returnValue;
 
         if (amount == 0)
-            gameObject.SetActive(false);
+        {
+            resourceManager.resourceTarget = null;
 
-        return value;
+            for (int i = 0; i < gatherers.Count; i++)
+            {
+                gatherers[i].StopGathering();
+            }
+
+            gatherers.Clear();
+            gameObject.SetActive(false);
+        }
+
+        return returnValue;
     }
 }
