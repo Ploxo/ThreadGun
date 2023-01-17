@@ -22,8 +22,8 @@ public class GameManager : MonoBehaviour
         gameOverScreen.SetActive(false);
         settingsScreen.SetActive(false);
 
-        pose.WhenSelected += EnableTarget;
-        pose.WhenUnselected += DisableTarget;
+        //pose.WhenSelected += EnableTarget;
+        //pose.WhenUnselected += DisableTarget;
     }
 
     void Update()
