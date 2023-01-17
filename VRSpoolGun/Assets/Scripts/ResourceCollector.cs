@@ -12,6 +12,7 @@ public class ResourceCollector : MonoBehaviour
     public float dropoffTime = 5f;
     public Transform target;
 
+    //public Transform homeBaseTransform;
     public ResourceManager homeBase;
 
     [SerializeField] private int capacity = 5;
@@ -22,13 +23,16 @@ public class ResourceCollector : MonoBehaviour
     bool droppingOff = false;
 
 
-    private void Awake()
-    {
-        homeBase = GameObject.FindGameObjectWithTag("Base").GetComponent<ResourceManager>();
-    }
-
     private void Start()
     {
+        homeBase = GameObject.Find("BaseObject").GetComponent<ResourceManager>();
+        //if (homeBaseTransform == null)
+        //    Debug.LogError("Base transform is null in start");
+
+        //homeBase = homeBaseTransform.GetComponent<ResourceManager>();
+        //if (homeBase == null)
+        //    Debug.LogError("Base is null in start");
+
         movement = GetComponent<NavMeshTest>();
     }
 

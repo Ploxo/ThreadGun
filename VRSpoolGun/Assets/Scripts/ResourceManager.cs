@@ -41,16 +41,16 @@ public class ResourceManager : MonoBehaviour
     {
         resourceText.text = "Resources: " + playerResources;
 
-        //SpawnAllies();
+        SpawnAllies();
     }
 
     private void SpawnAllies()
     {
-        for (int i = 0; i < spawnPoints.Count; i++)
+        for (int i = 0; i < allySpawnPoints.Count; i++)
         {
             GameObject go = Instantiate(allyPrefab, allySpawnPoints[i].position, Quaternion.identity);
             gatherers.Add(go.GetComponent<ResourceCollector>());
-            go.SetActive(false);
+            go.SetActive(true);
         }
     }
 

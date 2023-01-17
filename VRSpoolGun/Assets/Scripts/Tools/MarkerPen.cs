@@ -20,7 +20,7 @@ public class MarkerPen : MonoBehaviour
 
     private void Start()
     {
-        resourceManager = GameObject.FindGameObjectWithTag("Base").GetComponent<ResourceManager>();
+        resourceManager = GameObject.Find("BaseObject").GetComponent<ResourceManager>();
     }
 
     public void Fire()

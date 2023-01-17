@@ -26,6 +26,12 @@ public class NavMeshGenerator : MonoBehaviour
 
     public NavMeshSurface navMesh;
 
+    //private void Start()
+    //{
+    //    GenerateEnemy();
+    //    GenerateHumanoid();
+    //}
+
     public void GenerateHumanoid()
     {
         Debug.Log("Rebuilding Humanoid");
