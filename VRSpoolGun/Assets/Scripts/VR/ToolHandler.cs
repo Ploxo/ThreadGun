@@ -8,8 +8,7 @@ using UnityEngine;
 public class ToolHandler : MonoBehaviour
 {
     [Header("Input")]
-    public OVRInput.Button toolButton;
-    //public OVRInput.Button threadButton;
+
     public OVRInput.Button unequipButton;
     public OVRInput.Controller controller;
 
@@ -44,39 +43,11 @@ public class ToolHandler : MonoBehaviour
 
     void Update()
     {
-        if (OVRInput.GetDown(toolButton, controller))
-        {
-            OpenToolMenu();
-        }
-        //if (OVRInput.GetDown(threadButton, controller))
-        //{
-        //    OpenThreadMenu();
-        //}
         if (OVRInput.GetDown(unequipButton, controller))
         {
             Unequip();
         }
     }
-
-    private void OpenToolMenu()
-    {
-        toolUI.SetActive(!toolUI.activeSelf);
-
-        if (toolUI.activeSelf)
-            threadUI.SetActive(false);
-
-        canvas.SetActive(toolUI.activeSelf);
-    }
-
-    //private void OpenThreadMenu()
-    //{
-    //    threadUI.SetActive(!threadUI.activeSelf);
-
-    //    if (threadUI.activeSelf)
-    //        toolUI.SetActive(false);
-
-    //    canvas.SetActive(threadUI.activeSelf);
-    //}
 
     public void EquipTool(int index)
     {
@@ -91,20 +62,6 @@ public class ToolHandler : MonoBehaviour
         {
             StartCoroutine(EquipAfterOneFrame(true));
         }
-
-        //grabInteractor.Hover();
-        //grabInteractor.Select();
-
-        //gunInteractable.AddSelectingInteractor(grabInteractor);
-
-        //grabRight.Select();
-        //customGrabRight.SelectInteractable(GameObject.Find("/Gun/GrabInteractable").GetComponent<GrabInteractable>());
-
-        //////
-
-        //currentTool = tools[index];
-        //currentTool.gameObject.SetActive(true);
-        //currentTool.AttachWithOffset(rightAnchor.transform);
     }
 
     private IEnumerator EquipAfterOneFrame(bool useHandGrab)

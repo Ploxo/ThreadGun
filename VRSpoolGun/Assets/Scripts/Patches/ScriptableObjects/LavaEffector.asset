@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   duration: 3
   tick: 0.25
-  damage: 5
+  damage: 10

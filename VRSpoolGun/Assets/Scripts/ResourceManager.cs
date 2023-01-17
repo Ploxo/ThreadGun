@@ -17,7 +17,9 @@ public class ResourceManager : MonoBehaviour
     public TextMeshProUGUI resourceText;
 
     [SerializeField] private GameObject resourcePrefab;
+    [SerializeField] private GameObject allyPrefab;
     [SerializeField] private List<ResourceCollector> gatherers;
+    [SerializeField] private List<Transform> allySpawnPoints;
 
     private List<GameObject> resourceObjects = new List<GameObject>();
 
@@ -38,16 +40,28 @@ public class ResourceManager : MonoBehaviour
     private void Start()
     {
         resourceText.text = "Resources: " + playerResources;
+
+        //SpawnAllies();
     }
 
-    public void SetResourceTarget(Transform target)
+    private void SpawnAllies()
     {
-        resourceTarget = target;
-        foreach (var gatherer in gatherers)
+        for (int i = 0; i < spawnPoints.Count; i++)
         {
-            gatherer.SetTarget(target);
+            GameObject go = Instantiate(allyPrefab, allySpawnPoints[i].position, Quaternion.identity);
+            gatherers.Add(go.GetComponent<ResourceCollector>());
+            go.SetActive(false);
         }
     }
+
+    //public void SetResourceTarget(Transform target)
+    //{
+    //    resourceTarget = target;
+    //    foreach (var gatherer in gatherers)
+    //    {
+    //        gatherer.SetTarget(target);
+    //    }
+    //}
 
     //private Vector3 RandomPosition(Vector3 min, Vector3 max)
     //{
