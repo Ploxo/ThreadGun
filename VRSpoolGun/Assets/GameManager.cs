@@ -1,3 +1,4 @@
+using Oculus.Interaction;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public ActiveStateSelector pose;
+
     [SerializeField] private OVRInput.Button button;
     [SerializeField] private OVRInput.Controller controller;
     [SerializeField] private GameObject gameOverScreen;
@@ -18,6 +21,9 @@ public class GameManager : MonoBehaviour
         gameOver = false;
         gameOverScreen.SetActive(false);
         settingsScreen.SetActive(false);
+
+        pose.WhenSelected += EnableTarget;
+        pose.WhenUnselected += DisableTarget;
     }
 
     void Update()
@@ -37,6 +43,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void EnableTarget()
+    {
+        settingsScreen.SetActive(true);
+    }
+
+    private void DisableTarget()
+    {
+        settingsScreen.SetActive(false);
+    }
 
     public void GameOver()
     {
