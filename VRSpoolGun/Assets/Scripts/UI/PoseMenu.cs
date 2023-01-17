@@ -41,7 +41,7 @@ public class PoseMenu : MonoBehaviour
         {
             target.transform.LookAt(mainCamera.position);
             target.transform.Rotate(0f, 180, 0f, Space.Self);
-            target.transform.position = hand.position + (transform.forward * handOffset);
+            target.transform.position = hand.position + (target.transform.forward * handOffset);
         }
     }
 

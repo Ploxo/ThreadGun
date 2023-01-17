@@ -12,7 +12,7 @@ NavMeshProjectSettings:
   - name: Jump
     cost: 2
   - name: Lava
-    cost: 10
+    cost: 99
   - name: 
     cost: 1
   - name: 
