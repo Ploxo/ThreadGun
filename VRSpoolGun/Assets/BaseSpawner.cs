@@ -6,9 +6,7 @@ public class BaseSpawner : MonoBehaviour
 {
     private Transform parent;
 
-    //public int baseBuffer = 4;
-
-    private int buffer = 40;
+    private int buffer = 40; 
     public GameObject eBase;
     private bool canSpawn;
     private int bases = 0;
