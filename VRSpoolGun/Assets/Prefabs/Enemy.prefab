@@ -1021,7 +1021,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   torque: 60
-  baseMoveSpeed: 1
+  baseMoveSpeed: 0.5
   baseAngularSpeed: 360
   baseAcceleration: 10
   baseTorque: 10
